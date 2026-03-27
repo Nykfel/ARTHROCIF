@@ -37,6 +37,4 @@ df_result <- df %>%
   select(all_of(cols_fixed), Domain, START, END) %>%
   arrange(across(all_of(cols_fixed)), Domain)
 
-df <- df_result
-
 unique(df$Domain)
