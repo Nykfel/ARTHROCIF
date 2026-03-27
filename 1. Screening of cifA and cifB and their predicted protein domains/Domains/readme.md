@@ -1,6 +1,6 @@
 ## Data structure and processing
 
-Information related to the presence of domains for each sequence is provided in the table "TABLEAU".
+Information related to the presence of domains for each sequence is provided in the table Domains_cifAB-like.xlsx.
 
 Columns labeled "STOP" generally indicate an ORF disruption event.
 
