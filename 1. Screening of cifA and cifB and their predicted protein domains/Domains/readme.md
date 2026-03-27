@@ -1,5 +1,3 @@
-# 1. Screening of cifA and cifB and their predicted protein domains
-
 ## Data structure and processing
 
 Information related to the presence of domains for each sequence is provided in the table "TABLEAU".
