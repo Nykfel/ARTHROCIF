@@ -14,7 +14,8 @@ dom_cols <- c(
   "Unknown"                     = "gray90",
   "RNA-binding-like"            = "purple",
   "Apoptosis_regulator-like"    = "#FFD814",
-  "Salivary-gland_toxin"        = "#365729"
+  "Salivary-gland_toxin"        = "#365729",
+  "TPR_repeats"                 = "#513D73"
 )
 
 plot_domain_architecture <- function(df,
