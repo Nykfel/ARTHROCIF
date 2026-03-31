@@ -8,8 +8,8 @@ This workflow was complemented by a manual alignment step using the UGENE softwa
 
 ## Data structure and processing
 
-Information related to the presence of domains for each sequence is provided in the table Domains_cifAB-like.xlsx.
+Information related to the presence of domains for each sequence is provided in the table [Domains_cifAB-like.xlsx](https://github.com/Nykfel/ARTHROCIF/blob/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/Domains/Domains_cifAB-like.xlsx).
 
 In a broad sens, columns labeled "STOP" indicate an ORF disruption event.
 
-The script plot_domain_architecture.R used to visualize proteins and their associated domains requires the data to be in a long format rather than a wide format. Therefore, a data transformation step was necessary, which was performed using the script pivot_domains_long.R.
+The script [plot_domain_architecture.R](https://github.com/Nykfel/ARTHROCIF/blob/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/Domains/plot_domain_architecture.R) used to visualize proteins and their associated domains requires the data to be in a long format rather than a wide format. Therefore, a data transformation step was necessary, which was performed using the script [pivot_domains_long.R](https://github.com/Nykfel/ARTHROCIF/blob/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/Domains/pivot_domains_long.R).
