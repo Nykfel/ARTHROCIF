@@ -10,3 +10,4 @@ Sequences with an E-value greater than 0.005 were considered non-significant and
 
 
 BlastcifAB mis à jour le 02/044/26, ajout des selected_accession, modification nécessaire pour genomes
+Pour BLAST et GENOMES peut être déplacer le filtre sur selected_accession plutôt que sur Blast_hit, depuis l'ajout de selected_accession il n'y a aucune raison valable de filtrer à l'échelle de blast_hit (juste faire un simple slice(1) grpby selected accession + order by Evalue)
