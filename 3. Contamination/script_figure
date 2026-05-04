@@ -293,7 +293,7 @@ make_souche_panel <- function(souche_name) {
     ) +
     scale_x_continuous(limits = c(1, scaffold_len)) +
     scale_y_continuous(
-      limits = c(0.5, 0.5),
+      limits = c(0.7, 1),
       breaks = 1,
       labels = souche_name
     ) +
