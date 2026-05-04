@@ -322,6 +322,5 @@ figure_finale <- wrap_plots(
   plots_by_souche,
   ncol = 1
 )
-
 figure_finale
 
