@@ -10,8 +10,8 @@ unique(d$Souche)
 
 par(mfrow = c(1, 1))
 
-e <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Tentative/e.txt")
-d <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Tentative/df.txt")
+e <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/cif_like/Tentative/e.txt")
+d <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/cif_like/Tentative/df.txt")
 
 # Remplacement des abréviations par les noms complets
 d$Souche <- e$Organism[match(d$Souche, e$Abrv)]
