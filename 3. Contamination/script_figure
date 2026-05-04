@@ -1,0 +1,327 @@
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(tidyr)
+library(stringr)
+
+d <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Genomes_references/data.txt")
+
+unique(d$Souche)
+
+par(mfrow = c(1, 1))
+
+e <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Tentative/e.txt")
+d <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Tentative/df.txt")
+
+# Remplacement des abréviations par les noms complets
+d$Souche <- e$Organism[match(d$Souche, e$Abrv)]
+
+# Optionnel
+# d <- d[d$Clade != "HGT", ]
+# d <- d[d$Souche != "BFE", ]
+
+# Séparation CDS annotés / protéines hypothétiques
+d <- d %>%
+  mutate(
+    hypothetical = ifelse(
+      Product %in% c(
+        "hypothetical protein",
+        "Conserved hypothetical exported protein",
+        "(pseudo) hypothetical protein"
+      ),
+      1, 0
+    )
+  )
+
+# Retirer les éléments qui ne sont pas des CDS
+d <- d %>%
+  filter(!Type %in% c(
+    "ncRNA-region", "tRNA", "sorf", "ncRNA", "tmRNA",
+    "rRNA", "crispr", "crispr-repeat", "crispr-spacer",
+    "assembly_gap", "oriC"
+  ))
+
+# Paramètres
+bin_size <- 10000
+
+# Tableau des scaffolds
+contigs <- d %>%
+  group_by(Souche) %>%
+  summarise(
+    Scaffold_length = max(Scaffold_length, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+max_len <- max(contigs$Scaffold_length, na.rm = TRUE)
+
+# Extraction des positions relatives des gènes cif directement depuis d
+cif_points <- d %>%
+  group_by(Souche) %>%
+  slice(1) %>%
+  ungroup() %>%
+  select(Souche, matches("Cif[AB]_Start[0-9]+_relative")) %>%
+  pivot_longer(
+    cols = -Souche,
+    names_to = "cif",
+    values_to = "pos"
+  ) %>%
+  filter(!is.na(pos)) %>%
+  mutate(
+    type = case_when(
+      str_detect(cif, "CifA") ~ "CifA",
+      str_detect(cif, "CifB") ~ "CifB",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(type))
+
+# Création des fenêtres pour chaque souche
+bins_by_souche <- contigs %>%
+  rowwise() %>%
+  mutate(
+    bin_start = list(seq(1, Scaffold_length, by = bin_size))
+  ) %>%
+  unnest(bin_start) %>%
+  ungroup() %>%
+  mutate(
+    bin_end = pmin(bin_start + bin_size - 1, Scaffold_length),
+    bin_mid = (bin_start + bin_end) / 2,
+    bin_length = bin_end - bin_start + 1
+  )
+
+# Attribution des CDS à une fenêtre selon leur position de départ
+# Ce tableau sert à la figure a : les CDS ne sont pas découpés
+d2 <- d %>%
+  mutate(
+    bin_start = floor((Start - 1) / bin_size) * bin_size + 1,
+    CDS_length = Stop - Start + 1
+  )
+
+# Nombre de CDS annotés par fenêtre
+# Figure a : nombre réel de CDS annotés dont le Start tombe dans la fenêtre
+gene_density_annotated <- d2 %>%
+  filter(hypothetical == 0) %>%
+  group_by(Souche, bin_start) %>%
+  summarise(
+    n_CDS = n(),
+    .groups = "drop"
+  ) %>%
+  right_join(
+    bins_by_souche,
+    by = c("Souche", "bin_start")
+  ) %>%
+  mutate(
+    n_CDS = replace_na(n_CDS, 0)
+  ) %>%
+  arrange(Souche, bin_start)
+
+# Découpage virtuel des CDS selon les fenêtres
+# Ce tableau sert uniquement au calcul du coding coverage
+# Il peut contenir plusieurs lignes par fenêtre : une ligne par fragment de CDS
+d_coverage <- d %>%
+  select(Souche, Start, Stop) %>%
+  inner_join(
+    bins_by_souche,
+    by = "Souche",
+    relationship = "many-to-many"
+  ) %>%
+  filter(
+    Start <= bin_end,
+    Stop >= bin_start
+  ) %>%
+  mutate(
+    Start_cut = pmax(Start, bin_start),
+    Stop_cut = pmin(Stop, bin_end),
+    CDS_length_cut = Stop_cut - Start_cut + 1
+  )
+
+# Coding coverage par fenêtre
+# Figure b : proportion de la fenêtre occupée par des CDS
+# Ici on force une seule valeur de coverage par souche et par fenêtre
+
+coding_coverage <- d_coverage %>%
+  group_by(Souche, bin_start, bin_end, bin_mid, bin_length) %>%
+  summarise(
+    total_cds_length = sum(CDS_length_cut, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    coding_coverage = total_cds_length / bin_length
+  ) %>%
+  right_join( #apparement sert à réintégrer toutes les fenêtres, même celles où il n’y a aucun CDS
+    bins_by_souche,
+    by = c("Souche", "bin_start", "bin_end", "bin_mid", "bin_length")
+  ) %>%
+  mutate(
+    total_cds_length = replace_na(total_cds_length, 0),
+    coding_coverage = replace_na(coding_coverage, 0)
+  ) %>%
+  group_by(Souche, bin_start, bin_end, bin_mid, bin_length) %>%
+  summarise(
+    total_cds_length = sum(total_cds_length, na.rm = TRUE),
+    coding_coverage = sum(coding_coverage, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(Souche, bin_start)
+
+# Vérification optionnelle : doit retourner 0 ligne
+coding_coverage %>%
+  count(Souche, bin_mid) %>%
+  filter(n > 1)
+
+# Valeurs max globales pour avoir la même échelle Y pour toutes les souches
+ymax_a <- max(gene_density_annotated$n_CDS, na.rm = TRUE) * 1.05
+#ymax_b <- max(coding_coverage$coding_coverage, na.rm = TRUE) * 1.05
+ymax_b = 1
+
+# Fonction qui crée les 3 graphiques pour une souche
+make_souche_panel <- function(souche_name) {
+  
+  scaffold_len <- contigs %>%
+    filter(Souche == souche_name) %>%
+    pull(Scaffold_length)
+  
+  d_souche <- d %>%
+    filter(Souche == souche_name)
+  
+  annotated_souche <- gene_density_annotated %>%
+    filter(Souche == souche_name)
+  
+  coverage_souche <- coding_coverage %>%
+    filter(Souche == souche_name)
+  
+  cif_souche <- cif_points %>%
+    filter(Souche == souche_name)
+  
+  p_annotated <- ggplot(annotated_souche, aes(x = bin_mid, y = n_CDS)) +
+    geom_area(fill = "red", alpha = 0.5) +
+    geom_line(linewidth = 0.8, color = "red") +
+    geom_point(
+      data = cif_souche,
+      aes(x = pos, y = Inf, fill = type),
+      shape = 25,
+      size = 3,
+      color = "black",
+      alpha = 0.8,
+      inherit.aes = FALSE
+    ) +
+    scale_fill_manual(
+      values = c("CifA" = "pink", "CifB" = "red")
+    ) +
+    scale_x_continuous(limits = c(1, scaffold_len)) +
+    scale_y_continuous(limits = c(0, ymax_a)) +
+    labs(
+      title = souche_name,
+      x = NULL,
+      y = "a"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(face = "bold"),
+      legend.position = "none",
+      axis.title.x = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank()
+    )
+  
+  p_coverage <- ggplot(coverage_souche, aes(x = bin_mid, y = coding_coverage)) +
+    geom_area(fill = "grey40", alpha = 0.5) +
+    geom_line(linewidth = 0.8, color = "grey20") +
+    geom_point(
+      data = cif_souche,
+      aes(x = pos, y = Inf, fill = type),
+      shape = 25,
+      size = 3,
+      color = "black",
+      alpha = 0.8,
+      inherit.aes = FALSE
+    ) +
+    scale_fill_manual(
+      values = c("CifA" = "pink", "CifB" = "red")
+    ) +
+    scale_x_continuous(limits = c(1, scaffold_len)) +
+    scale_y_continuous(limits = c(0, ymax_b)) +
+    labs(
+      x = NULL,
+      y = "b"
+    ) +
+    theme_minimal() +
+    theme(
+      legend.position = "none",
+      axis.title.x = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank()
+    )
+  
+  p_scaffold <- ggplot() +
+    geom_segment(
+      data = contigs %>% filter(Souche == souche_name),
+      aes(
+        x = 1,
+        xend = Scaffold_length,
+        y = 1,
+        yend = 1
+      ),
+      linewidth = 1,
+      color = "black"
+    ) +
+    geom_segment(
+      data = d_souche,
+      aes(
+        x = Start,
+        xend = Stop,
+        y = 1,
+        yend = 1,
+        color = factor(hypothetical)
+      ),
+      linewidth = 10
+    ) +
+    geom_point(
+      data = cif_souche,
+      aes(x = pos, y = 1.25, fill = type),
+      shape = 25,
+      size = 3,
+      color = "black",
+      alpha = 0.8,
+      inherit.aes = FALSE
+    ) +
+    scale_color_manual(
+      values = c("0" = "red", "1" = "grey25")
+    ) +
+    scale_fill_manual(
+      values = c("CifA" = "pink", "CifB" = "red")
+    ) +
+    scale_x_continuous(limits = c(1, scaffold_len)) +
+    scale_y_continuous(
+      limits = c(0.5, 0.5),
+      breaks = 1,
+      labels = souche_name
+    ) +
+    labs(
+      x = "Position relative sur le scaffold",
+      y = NULL
+    ) +
+    theme_minimal() +
+    theme(
+      legend.position = "none",
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank()
+    )
+  
+  p_annotated / p_coverage / p_scaffold +
+    plot_layout(heights = c(1, 1, 0.6))
+}
+
+# Création d’un bloc de 3 graphiques par souche
+souches <- unique(contigs$Souche)
+
+plots_by_souche <- lapply(souches, make_souche_panel)
+
+# Assemblage final
+figure_finale <- wrap_plots(
+  plots_by_souche,
+  ncol = 1
+)
+
+figure_finale
+
