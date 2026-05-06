@@ -1,0 +1,21 @@
+awk '
+BEGIN { OFS="\t" }
+FNR==1 {
+    souche=FILENAME
+    sub(/\.tsv$/, "", souche)
+}
+ /^#/ {
+    if ($0 ~ /^#Sequence Id/) {
+        header=$0
+        sub(/^#/, "", header)
+        if (!header_printed) {
+            print "Souche", header
+            header_printed=1
+        }
+    }
+    next
+}
+{
+    print souche, $0
+}
+' *.tsv > all_souches.tsv
