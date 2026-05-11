@@ -2,7 +2,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(scales)
-data <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/CifB/temporaire/data.txt") #tableau domaine long
+data <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/CifB/temporaire/data.txt")
 long = data
 
 # Suppression des lignes où les deux domaines nucléases sont présents
@@ -11,6 +11,8 @@ long <- long %>%
     is.na(PD..D.E.XK_nuclease_1_START) |
       is.na(PD..D.E.XK_nuclease_2_START)
   )
+
+sum(!is.na(long$PD..D.E.XK_nuclease_1_START))
 
 dom_cols <- c(
   "AAA_ATPase_like"             = "#2CA25F",
@@ -99,3 +101,17 @@ ggplot(domain_prop, aes(x = domaine_lab, y = proportion, fill = domaine)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 45, hjust = 1)
   )
+
+library(ggplot2)
+library(dplyr)
+
+df_pie <- tibble(
+  categorie = c("64", "94 - 64"),
+  valeur = c(64, 94 - 64)
+)
+
+ggplot(df_pie, aes(x = "", y = valeur, fill = categorie)) +
+  geom_col(color = "black", linewidth = 0.25) +
+  coord_polar(theta = "y") +
+  labs(fill = "Catégorie") +
+  theme_void()
