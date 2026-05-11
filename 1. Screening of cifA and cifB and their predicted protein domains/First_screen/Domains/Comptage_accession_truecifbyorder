@@ -3,12 +3,11 @@ library(tidyr)
 library(ggplot2)
 library(ggpattern)
 
-#juste mettre première feuille de cifA et cifB info
-
 cols_tableau <- c(
   "CifA" = "#8E6BBE",
   "CifB" = "#E57373"
 )
+
 df_taxo <- bind_rows(
   cifA %>% mutate(Tableau = "CifA"),
   cifB %>% mutate(Tableau = "CifB")
@@ -65,7 +64,6 @@ recap_clade <- df_taxo %>%
     Clade_regroupe = factor(Clade_regroupe, levels = unique(Clade_regroupe))
   )
 
-
 recap_ordre <- df_taxo %>%
   count(Tableau, Groupe_arthropode, Ordre, Cif_like, name = "n") %>%
   group_by(Tableau, Groupe_arthropode, Ordre) %>%
@@ -120,15 +118,15 @@ p_clade <- ggplot(recap_clade, aes(x = Clade_regroupe, y = n_lignes, fill = Tabl
     pattern_spacing = 0.03,
     pattern_fill = "black"
   ) +
-  geom_text(
-    aes(
-      y = n_lignes,
-      label = ifelse(n_cif_like > 0, paste0(round(prop_cif_like * 100), "%"), "")
-    ),
-    position = position_dodge2(width = 0.9, preserve = "single"),
-    vjust = -0.4,
-    size = 3
-  ) +
+  # geom_text(
+  #   aes(
+  #     y = n_lignes,
+  #     label = ifelse(n_cif_like > 0, paste0(round(prop_cif_like * 100), "%"), "")
+  #   ),
+  #   position = position_dodge2(width = 0.9, preserve = "single"),
+  #   vjust = -0.4,
+  #   size = 3
+  # ) +
   scale_fill_manual(values = cols_tableau, drop = FALSE) +
   labs(
     x = "Clade",
@@ -163,15 +161,15 @@ p_ordre <- ggplot(recap_ordre, aes(x = Ordre, y = n_lignes, fill = Tableau)) +
     pattern_spacing = 0.03,
     pattern_fill = "black"
   ) +
-  geom_text(
-    aes(
-      y = n_lignes,
-      label = ifelse(n_cif_like > 0, paste0(round(prop_cif_like * 100), "%"), "")
-    ),
-    position = position_dodge2(width = 0.9, preserve = "single"),
-    vjust = -0.4,
-    size = 3
-  ) +
+  # geom_text(
+  #   aes(
+  #     y = n_lignes,
+  #     label = ifelse(n_cif_like > 0, paste0(round(prop_cif_like * 100), "%"), "")
+  #   ),
+  #   position = position_dodge2(width = 0.9, preserve = "single"),
+  #   vjust = -0.4,
+  #   size = 3
+  # ) +
   facet_grid(. ~ Groupe_arthropode, scales = "free_x", space = "free_x") +
   scale_fill_manual(values = cols_tableau, drop = FALSE) +
   labs(
