@@ -3,6 +3,8 @@ library(tidyr)
 library(ggplot2)
 library(ggpattern)
 
+#juste mettre première feuille de cifA et cifB info
+
 cols_tableau <- c(
   "CifA" = "#8E6BBE",
   "CifB" = "#E57373"
