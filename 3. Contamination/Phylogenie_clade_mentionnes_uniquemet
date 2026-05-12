@@ -1,0 +1,199 @@
+library(dplyr)
+library(tidyr)
+library(ape)
+library(stringr)
+
+# =========================
+# 1. Tableau d'entrée
+# =========================
+
+liste_cif <- data.frame(
+  Tableau = c(
+    "CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA",
+    "CifB","CifB","CifB","CifB","CifB","CifB","CifB","CifB","CifB"
+  ),
+  Clade = c(
+    "Arthropoda","Arthropoda","Arthropoda","Arthropoda","Arthropoda","Arthropoda",
+    "Arthropoda","Arthropoda","Arthropoda","Plantae","Arthropoda","Arthropoda",
+    "Arthropoda","Arthropoda","Arthropoda","Arthropoda","Rotifera","Nematoda",
+    "Arthropoda","Arthropoda","Arthropoda"
+  ),
+  Ordre = c(
+    "Coleoptera","Scorpiones","Araneae","Isopoda","Hemiptera","Hymenoptera",
+    "Pseudoscorpiones","Lepitdoptera","Diptera","Plantae","Phasmatodea","Myriapoda",
+    "Coleoptera","Lepidoptera","Araneae","Isopoda","Rotifera","Nematoda",
+    "Diptera","Hemiptera","Phasmatidae"
+  )
+)
+
+# =========================
+# 2. Nettoyage des noms
+# =========================
+
+liste_cif <- liste_cif %>%
+  mutate(
+    Clade = str_trim(Clade),
+    Ordre = str_trim(Ordre),
+    Ordre = case_when(
+      Ordre == "Lepitdoptera" ~ "Lepidoptera",
+      Ordre == "Phasmatidae" ~ "Phasmatodea",
+      TRUE ~ Ordre
+    )
+  )
+
+# =========================
+# 3. Clades à conserver
+# =========================
+
+clades_a_garder <- c(
+  "Coleoptera",
+  "Scorpiones",
+  "Araneae",
+  "Isopoda",
+  "Hemiptera",
+  "Hymenoptera",
+  "Pseudoscorpiones",
+  "Siphonaptera",
+  "Lepidoptera",
+  "Diptera",
+  "Plantae",
+  "Phasmatodea",
+  "Myriapoda",
+  "Fungi",
+  "Rotifera",
+  "Nematoda",
+  "Stramenopila",
+  "Protist"
+)
+
+# =========================
+# 4. Présence CifA / CifB
+# =========================
+
+presence <- liste_cif %>%
+  filter(Ordre %in% clades_a_garder) %>%
+  distinct(Tableau, Ordre) %>%
+  mutate(present = TRUE) %>%
+  pivot_wider(
+    names_from = Tableau,
+    values_from = present,
+    values_fill = FALSE
+  )
+
+# =========================
+# 5. Arbre théorique simplifié
+# =========================
+
+newick_detaille <- "
+(
+  Plantae,
+  Fungi,
+  Stramenopila,
+  Protist,
+  (
+    Rotifera,
+    Nematoda,
+    (
+      (
+        Araneae,
+        (
+          Scorpiones,
+          Pseudoscorpiones
+        ) Arachnida_autres
+      ) Chelicerata,
+      (
+        Myriapoda,
+        (
+          Isopoda,
+          (
+            (
+              Phasmatodea,
+              (
+                Hemiptera,
+                (
+                  Hymenoptera,
+                  (
+                    (
+                      Lepidoptera,
+                      (
+                        Diptera,
+                        Siphonaptera
+                      ) Antliophora
+                    ) Mecopterida,
+                    Coleoptera
+                  ) Holometabola_interne
+                ) Holometabola
+              ) Eumetabola
+            ) Insecta
+          ) Hexapoda
+        ) Pancrustacea
+      ) Mandibulata
+    ) Arthropoda
+  ) Ecdysozoa
+) Eukaryota;
+"
+  
+  arbre <- read.tree(text = newick_detaille)
+  
+  # Nettoyage des labels
+  arbre$tip.label <- str_trim(arbre$tip.label)
+  
+  # =========================
+  # 6. Vérification / filtrage de sécurité
+  # =========================
+  
+  tips_a_supprimer <- setdiff(arbre$tip.label, clades_a_garder)
+  
+  if (length(tips_a_supprimer) > 0) {
+    arbre <- drop.tip(arbre, tips_a_supprimer)
+  }
+  
+  # =========================
+  # 7. Annotation des extrémités
+  # =========================
+  
+  annotation_tips <- data.frame(Ordre = arbre$tip.label) %>%
+    left_join(presence, by = "Ordre") %>%
+    mutate(
+      CifA = ifelse(is.na(CifA), FALSE, CifA),
+      CifB = ifelse(is.na(CifB), FALSE, CifB),
+      symbole = case_when(
+        CifA == TRUE & CifB == TRUE ~ "●●",
+        CifA == TRUE & CifB == FALSE ~ "●○",
+        CifA == FALSE & CifB == TRUE ~ "○●",
+        TRUE ~ "○○"
+      )
+    )
+  
+  # =========================
+  # 8. Affichage de l'arbre
+  # =========================
+  
+  arbre$tip.label <- annotation_tips$Ordre
+  
+  plot(
+    arbre,
+    type = "phylogram",
+    show.tip.label = TRUE,
+    cex = 0.75,
+    label.offset = 0.3,
+    no.margin = FALSE
+  )
+  
+  lp <- get("last_plot.phylo", envir = .PlotPhyloEnv)
+  
+  text(
+    x = max(lp$xx) + 8,
+    y = lp$yy[1:length(arbre$tip.label)],
+    labels = annotation_tips$symbole,
+    adj = 0,
+    cex = 0.85
+  )
+  
+  title("Arbre phylogénétique simplifié avec occurrence Cif-like")
+  
+  # =========================
+  # 9. Tableau de vérification
+  # =========================
+  
+  annotation_tips
