@@ -1,0 +1,212 @@
+library(dplyr)
+library(tidyr)
+library(ape)
+library(stringr)
+
+# =========================
+# 1. Tableau d'entrée
+# =========================
+
+liste_cif <- data.frame(
+  Tableau = c(
+    "CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA","CifA",
+    "CifB","CifB","CifB","CifB","CifB","CifB","CifB","CifB","CifB"
+  ),
+  Clade = c(
+    "Arthropoda","Arthropoda","Arthropoda","Arthropoda","Arthropoda","Arthropoda",
+    "Arthropoda","Arthropoda","Arthropoda","Plantae","Arthropoda","Arthropoda",
+    "Arthropoda","Arthropoda","Arthropoda","Arthropoda","Rotifera","Nematoda",
+    "Arthropoda","Arthropoda","Arthropoda"
+  ),
+  Ordre = c(
+    "Coleoptera","Scorpiones","Araneae","Isopoda","Hemiptera","Hymenoptera",
+    "Pseudoscorpiones","Lepitdoptera","Diptera","Plantae","Phasmatodea","Myriapoda",
+    "Coleoptera","Lepidoptera","Araneae","Isopoda","Rotifera","Nematoda",
+    "Diptera","Hemiptera","Phasmatidae"
+  )
+)
+
+# =========================
+# 2. Nettoyage des noms
+# =========================
+
+liste_cif <- liste_cif %>%
+  mutate(
+    Clade = str_trim(Clade),
+    Ordre = str_trim(Ordre),
+    Ordre = case_when(
+      Ordre == "Lepitdoptera" ~ "Lepidoptera",
+      Ordre == "Phasmatidae" ~ "Phasmatodea",
+      TRUE ~ Ordre
+    )
+  )
+
+# =========================
+# 3. Présence CifA / CifB
+# =========================
+
+presence <- liste_cif %>%
+  distinct(Tableau, Ordre) %>%
+  mutate(present = TRUE) %>%
+  pivot_wider(
+    names_from = Tableau,
+    values_from = present,
+    values_fill = FALSE
+  )
+
+# =========================
+# 4. Arbre théorique corrigé
+# =========================
+# Ordres retirés comme demandé :
+# Plecoptera, Embioptera, Zoraptera,
+# Grylloblattodea, Mantophasmatodea, Psocodea
+#
+# Correction principale :
+# Neuroptera est replacé avec Megaloptera/Raphidioptera,
+# dans un bloc proche de Coleoptera/Strepsiptera,
+# et non plus du côté des Diptères/Lépidoptères.
+
+newick_detaille <- "
+(
+  Plantae,
+  (
+    Rotifera,
+    Nematoda,
+    (
+      (
+        Araneae,
+        (
+          Scorpiones,
+          Pseudoscorpiones
+        ) Arachnida_autres
+      ) Chelicerata,
+      (
+        Myriapoda,
+        (
+          Isopoda,
+          (
+            (
+              Archaeognatha,
+              (
+                Zygentoma,
+                (
+                  (
+                    Ephemeroptera,
+                    Odonata
+                  ) Palaeoptera,
+                  (
+                    (
+                      (
+                        Orthoptera,
+                        Phasmatodea
+                      ) Orthopteroidea,
+                      Dermaptera,
+                      (
+                        Blattodea,
+                        Mantodea
+                      ) Dictyoptera
+                    ) Polyneoptera,
+                    (
+                      (
+                        Hemiptera,
+                        Thysanoptera
+                      ) Paraneoptera,
+                      (
+                        Hymenoptera,
+                        (
+                          (
+                            (
+                              Trichoptera,
+                              Lepidoptera
+                            ) Amphiesmenoptera,
+                            (
+                              Diptera,
+                              Siphonaptera,
+                              Mecoptera
+                            ) Antliophora
+                          ) Mecopterida,
+                          (
+                            (
+                              Coleoptera,
+                              Strepsiptera
+                            ) Coleopterida,
+                            (
+                              Raphidioptera,
+                              (
+                                Megaloptera,
+                                Neuroptera
+                              ) Neuroptera_Megaloptera
+                            ) Neuropterida
+                          ) Neuropteroidea
+                        ) Holometabola_interne
+                      ) Holometabola
+                    ) Eumetabola
+                  ) Neoptera
+                ) Pterygota
+              ) Dicondylia
+            ) Insecta
+          ) Hexapoda
+        ) Pancrustacea
+      ) Mandibulata
+    ) Arthropoda
+  ) Ecdysozoa
+) Eukaryota;
+"
+  
+  arbre <- read.tree(text = newick_detaille)
+  
+  # Nettoyage indispensable des labels
+  arbre$tip.label <- str_trim(arbre$tip.label)
+  
+  # =========================
+  # 5. Annotation des extrémités
+  # =========================
+  
+  annotation_tips <- data.frame(Ordre = arbre$tip.label) %>%
+    left_join(presence, by = "Ordre") %>%
+    mutate(
+      CifA = ifelse(is.na(CifA), FALSE, CifA),
+      CifB = ifelse(is.na(CifB), FALSE, CifB),
+      symbole = case_when(
+        CifA == TRUE & CifB == TRUE ~ "●●",
+        CifA == TRUE & CifB == FALSE ~ "●○",
+        CifA == FALSE & CifB == TRUE ~ "○●",
+        TRUE ~ "○○"
+      ),
+      label_final = paste0(str_pad(Ordre, width = 26, side = "right"), symbole)
+    )
+  
+  arbre$tip.label <- annotation_tips$label_final
+  
+  # =========================
+  # 6. Affichage
+  # =========================
+  
+  arbre$tip.label <- annotation_tips$Ordre
+  
+  plot(
+    arbre,
+    type = "phylogram",
+    show.tip.label = TRUE,
+    cex = 0.75,
+    label.offset = 0.3,
+    no.margin = FALSE
+  )
+  
+  lp <- get("last_plot.phylo", envir = .PlotPhyloEnv)
+  
+  text(
+    x = max(lp$xx) + 12,
+    y = lp$yy[1:length(arbre$tip.label)],
+    labels = annotation_tips$symbole,
+    adj = 0,
+    cex = 0.85
+  )
+  
+  title("Arbre phylogénétique avec occurrence Cif-like")
+  
+  # =========================
+  # 7. Tableau de vérification
+  # =========================
+  
+  annotation_tips
