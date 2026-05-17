@@ -4,11 +4,21 @@ library(tidyr)
 library(ggalluvial)
 
 ############################
-# 1. Données CifB et CifA
+# 1. Données CifA puis CifB
 ############################
 
+df_cifA <- tibble(
+  type_cif = "A) CifA",
+  etape = 1:5,
+  Genome_tblastx = c(14, 2, 2, 2, 2),
+  Genome_tblastn = c(8, 2, 0, 0, 0),
+  Blast_blastp   = c(704, 67, 67, 67, 67),
+  Blast_tblastx  = c(267, 58, 19, 19, 18),
+  Blast_tblastn  = c(295, 61, 18, 18, 15)
+)
+
 df_cifB <- tibble(
-  type_cif = "CifB",
+  type_cif = "B) CifB",
   etape = 1:5,
   Liste = c(45, 45, 45, 45, 7),
   Genome_tblastx = c(8, 2, 2, 2, 2),
@@ -18,19 +28,9 @@ df_cifB <- tibble(
   Blast_blastp   = c(94, 35, 35, 33, 12)
 )
 
-df_cifA <- tibble(
-  type_cif = "CifA",
-  etape = 1:5,
-  Genome_tblastx = c(14, 2, 2, 2, 2),
-  Genome_tblastn = c(8, 2, 0, 0, 0),
-  Blast_blastp   = c(704, 67, 67, 67, 67),
-  Blast_tblastx  = c(267, 58, 19, 19, 18),
-  Blast_tblastn  = c(295, 61, 18, 18, 15)
-)
-
-df <- bind_rows(df_cifB, df_cifA) %>%
+df <- bind_rows(df_cifA, df_cifB) %>%
   mutate(
-    type_cif = factor(type_cif, levels = c("CifB", "CifA"))
+    type_cif = factor(type_cif, levels = c("A) CifA", "B) CifB"))
   )
 
 ############################
@@ -60,13 +60,7 @@ dat <- df %>%
     etape_lab = factor(
       etape,
       levels = 1:5,
-      labels = c(
-        "1)",
-        "2)",
-        "3)",
-        "4)",
-        "5)"
-      )
+      labels = c("1)", "2)", "3)", "4)", "5)")
     )
   )
 
@@ -74,11 +68,11 @@ dat <- df %>%
 # 3. Seuils d'affichage des labels
 ############################
 
-seuil_cifB <- 5
 seuil_cifA <- 20
+seuil_cifB <- 5
 
 ############################
-# 4. Figure CifB puis CifA
+# 4. Figure CifA puis CifB
 ############################
 
 figure_globale <- ggplot(
@@ -108,7 +102,7 @@ figure_globale <- ggplot(
     aes(
       label = after_stat(
         ifelse(
-          count < ifelse(PANEL == 1, seuil_cifB, seuil_cifA),
+          count < ifelse(PANEL == 1, seuil_cifA, seuil_cifB),
           "",
           ifelse(
             stratum == "Liste",
@@ -146,10 +140,6 @@ figure_globale <- ggplot(
   theme_minimal(base_size = 13) +
   theme(
     panel.grid.minor = element_blank(),
-    legend.position = "right"
-  ) +
-  theme(
-    panel.grid.minor = element_blank(),
     legend.position = "right",
     panel.border = element_rect(
       color = "grey60",
@@ -159,7 +149,6 @@ figure_globale <- ggplot(
   )
 
 figure_globale
-
 ##################
 library(ggplot2)
 library(dplyr)
