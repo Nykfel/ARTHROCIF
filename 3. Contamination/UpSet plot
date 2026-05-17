@@ -20,13 +20,14 @@ ordre_combos <- c(
   "tblastx",
   "blastp + tblastx",
   "tblastn + tblastx",
+  "tblastn + blastp",
   "blastp + tblastn + tblastx"
 )
 
 labels_methodes <- c(
-  "blastp"  = "blastp (bp)",
-  "tblastn" = "tblastn (tbn)",
-  "tblastx" = "tblastx (tbx)"
+  "blastp"  = "BLASTp",
+  "tblastn" = "tBLASTn",
+  "tblastx" = "tBLASTx"
 )
 
 labels_combos <- c(
@@ -35,6 +36,7 @@ labels_combos <- c(
   "tblastx" = "tbx",
   "blastp + tblastx" = "bp + tbx",
   "tblastn + tblastx" = "tbn + tbx",
+  "tblastn + blastp" = "tbn + bp",
   "blastp + tblastn + tblastx" = "bp + tbn + tbx"
 )
 
@@ -53,19 +55,24 @@ tab <- tribble(
   "CifA", "tblastx",                              1,           5,           6,
   "CifA", "tblastn",                              2,           5,           7,
   "CifA", "blastp",                               0,          36,          36,
-  "CifA", "tblastx + tblastn",                    2,          26,          28,
-  "CifA", "tblastx + blastp",                     0,           2,           2,
-  "CifA", "blastp + tblastn + tblastx",           0,          24,          24
+  "CifA", "tblastn + tblastx",                    2,          24,          28,
+  "CifA", "blastp + tblastx",                     0,           2,           2,
+  "CifA", "blastp + tblastn + tblastx",           0,          24,          24,
+  "CifA", "tblastn + blastp",                     0,           4,           4
 )
 
 # -----------------------------
-# 2. Harmonisation des combinaisons
+# 2. Harmonisation
 # -----------------------------
 
 tab_plot <- tab %>%
   mutate(
-    combinaison = gsub("tblastx \\+ tblastn", "tblastn + tblastx", combinaison),
-    combinaison = gsub("tblastx \\+ blastp", "blastp + tblastx", combinaison),
+    combinaison = case_when(
+      combinaison == "tblastx + tblastn" ~ "tblastn + tblastx",
+      combinaison == "tblastx + blastp" ~ "blastp + tblastx",
+      combinaison == "blastp + tblastn" ~ "tblastn + blastp",
+      TRUE ~ combinaison
+    ),
     combinaison = factor(combinaison, levels = ordre_combos),
     Gene = factor(Gene, levels = c("CifA", "CifB"))
   ) %>%
@@ -73,18 +80,57 @@ tab_plot <- tab %>%
     Gene,
     combinaison = factor(ordre_combos, levels = ordre_combos),
     fill = list(Cif_like_0 = 0, Cif_like_1 = 0, total = 0)
-  )
-
-combo_labels <- tibble(
-  combinaison = factor(ordre_combos, levels = ordre_combos),
-  combo_id = seq_along(ordre_combos)
-)
-
-tab_plot <- tab_plot %>%
-  left_join(combo_labels, by = "combinaison")
+  ) %>%
+  mutate(combo_id = as.numeric(combinaison))
 
 # -----------------------------
-# 3. Matrice présence / absence
+# 3. Histogramme du haut
+# -----------------------------
+
+p_bar <- ggplot(tab_plot, aes(x = combinaison, fill = Gene)) +
+  geom_col(
+    aes(y = total),
+    position = position_dodge(width = 0.75),
+    width = 0.65,
+    color = "black",
+    linewidth = 0.25,
+    alpha = 0.30
+  ) +
+  geom_col(
+    aes(y = Cif_like_1),
+    position = position_dodge(width = 0.75),
+    width = 0.65,
+    color = "black",
+    linewidth = 0.25,
+    alpha = 1
+  ) +
+  geom_text(
+    data = tab_plot %>% filter(total > 0),
+    aes(
+      y = total + 1,
+      label = paste0(Cif_like_1, "/", total)
+    ),
+    position = position_dodge(width = 0.75),
+    size = 3.1
+  ) +
+  scale_fill_manual(values = cols_gene) +
+  scale_x_discrete(labels = labels_combos[ordre_combos]) +
+  labs(
+    x = NULL,
+    y = "Nombre de séquences",
+    fill = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.major = element_line(linewidth = 0.3),
+    panel.grid.minor = element_line(linewidth = 0.15),
+    legend.position = "top",
+    axis.text.x = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks.x = element_blank())
+
+# -----------------------------
+# 4. Matrice présence / absence
 # -----------------------------
 
 combo_matrix <- tibble(combinaison = ordre_combos) %>%
@@ -102,15 +148,11 @@ combo_matrix <- tibble(combinaison = ordre_combos) %>%
   )
 
 # -----------------------------
-# 4. Histogramme de gauche
+# 5. Histogramme de gauche
 # -----------------------------
 
-set_sizes <- tab %>%
-  mutate(
-    combinaison = gsub("tblastx \\+ tblastn", "tblastn + tblastx", combinaison),
-    combinaison = gsub("tblastx \\+ blastp", "blastp + tblastx", combinaison),
-    Gene = factor(Gene, levels = c("CifA", "CifB"))
-  ) %>%
+set_sizes <- tab_plot %>%
+  select(Gene, combinaison, total, Cif_like_1) %>%
   separate_rows(combinaison, sep = " \\+ ") %>%
   rename(Methode = combinaison) %>%
   group_by(Gene, Methode) %>%
@@ -173,8 +215,7 @@ p_set <- ggplot(set_sizes, aes(y = Methode, fill = Gene)) +
     panel.grid = element_blank(),
     axis.text.y = element_blank(),
     axis.ticks.y = element_blank(),
-    legend.position = "top",
-    plot.margin = margin(5.5, 0, 5.5, 5.5)
+    legend.position = "top"
   )
 
 p_labels <- tibble(
@@ -182,16 +223,10 @@ p_labels <- tibble(
   label = labels_methodes[methodes]
 ) %>%
   ggplot(aes(x = 1, y = Methode, label = label)) +
-  geom_text(
-    hjust = 0.5,
-    size = 4
-  ) +
+  geom_text(hjust = 0.5, size = 4) +
   scale_y_discrete(limits = levels(combo_matrix$Methode)) +
   scale_x_continuous(limits = c(0.5, 1.5)) +
-  theme_void(base_size = 13) +
-  theme(
-    plot.margin = margin(5.5, 2, 5.5, 2)
-  )
+  theme_void(base_size = 13)
 
 p_matrix <- ggplot(combo_matrix, aes(x = combo_id, y = Methode)) +
   geom_line(
@@ -206,18 +241,18 @@ p_matrix <- ggplot(combo_matrix, aes(x = combo_id, y = Methode)) +
     labels = labels_combos[ordre_combos]
   ) +
   scale_y_discrete(labels = NULL) +
-  labs(
-    x = NULL,
-    y = NULL
-  ) +
+  labs(x = NULL, y = NULL) +
   theme_minimal(base_size = 13) +
   theme(
     panel.grid = element_blank(),
     axis.text.x = element_text(angle = 45, hjust = 1),
     axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    plot.margin = margin(5.5, 5.5, 5.5, 0)
+    axis.ticks.y = element_blank()
   )
+
+# -----------------------------
+# 6. Assemblage final
+# -----------------------------
 
 top_row <- plot_spacer() + plot_spacer() + p_bar +
   plot_layout(widths = c(0.9, 0.5, 2.8))
