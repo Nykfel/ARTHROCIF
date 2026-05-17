@@ -1,0 +1,105 @@
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(patchwork)
+
+d <- read.delim("C:/Users/Mael RICHON/Desktop/Temporaire/data.txt")
+
+df <- d %>%
+  select(Accession = Selected_Accession, Methode, Cif_like) %>%
+  filter(!is.na(Accession), !is.na(Methode)) %>%
+  mutate(Cif_like = as.integer(Cif_like)) %>%
+  distinct()
+
+methodes <- sort(unique(df$Methode))
+
+# Une ligne par accession avec présence/absence dans chaque méthode
+df_presence <- df %>%
+  distinct(Accession, Methode) %>%
+  mutate(present = 1) %>%
+  pivot_wider(
+    names_from = Methode,
+    values_from = present,
+    values_fill = 0
+  )
+
+# Statut Cif_like par accession
+df_cif <- df %>%
+  group_by(Accession) %>%
+  summarise(Cif_like = max(Cif_like, na.rm = TRUE), .groups = "drop")
+
+df_upset <- df_presence %>%
+  left_join(df_cif, by = "Accession") %>%
+  rowwise() %>%
+  mutate(
+    combinaison = paste(methodes[c_across(all_of(methodes)) == 1], collapse = " + ")
+  ) %>%
+  ungroup()
+
+# Tableau des intersections
+table_intersections <- df_upset %>%
+  group_by(combinaison) %>%
+  summarise(
+    total = n(),
+    n_cif_like = sum(Cif_like == 1, na.rm = TRUE),
+    ratio = paste0(n_cif_like, "/", total),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(total)) %>%
+  mutate(combo_id = row_number())
+
+# Matrice présence/absence des méthodes par combinaison
+combo_matrix <- df_upset %>%
+  distinct(combinaison, across(all_of(methodes))) %>%
+  left_join(table_intersections %>% select(combinaison, combo_id), by = "combinaison") %>%
+  pivot_longer(
+    cols = all_of(methodes),
+    names_to = "Methode",
+    values_to = "present"
+  )
+
+# Graphique du haut : taille des intersections
+p_bar <- ggplot(table_intersections, aes(x = combo_id)) +
+  geom_col(aes(y = total), fill = "grey85", color = "black") +
+  geom_col(aes(y = n_cif_like), fill = "grey30", color = "black") +
+  geom_text(aes(y = total, label = ratio), vjust = -0.4, size = 3.5) +
+  scale_x_continuous(
+    breaks = table_intersections$combo_id,
+    labels = NULL
+  ) +
+  labs(
+    x = NULL,
+    y = "Nombre d'accessions"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_blank()
+  )
+
+# Graphique du bas : matrice des combinaisons de méthodes
+p_matrix <- ggplot(combo_matrix, aes(x = combo_id, y = Methode)) +
+  geom_line(
+    data = combo_matrix %>% filter(present == 1),
+    aes(group = combo_id),
+    linewidth = 0.4
+  ) +
+  geom_point(aes(alpha = factor(present)), size = 4) +
+  scale_alpha_manual(values = c("0" = 0.15, "1" = 1), guide = "none") +
+  scale_x_continuous(
+    breaks = table_intersections$combo_id,
+    labels = table_intersections$combinaison
+  ) +
+  labs(
+    x = "Combinaison de méthodes",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+# UpSet plot final
+p_bar / p_matrix +
+  plot_layout(heights = c(2, 1))
