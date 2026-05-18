@@ -1,0 +1,50 @@
+library(gt)
+
+
+
+gt(tab) %>%
+  cols_label_with(
+    fn = function(x) gsub("\\.", " ", x)
+  ) %>%
+  opt_row_striping() %>%
+  cols_align(
+    align = "center",
+    columns = -1
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#e6308f", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows =Type.CifB== "I")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#e08640", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows =Type.CifB== "II")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#95d042", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows =Type.CifB== "IV")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#25bef4", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows = Type.CifB == "VI")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#6b7bae", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows =Type.CifB== "VIII")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#915ead", weight = "bold"),
+    locations = cells_body(columns =Type.CifB, rows =Type.CifB== "IX")
+  ) %>%
+  tab_style(
+    style = cell_text(style = "italic"),
+    locations = cells_body(columns = Espèce)
+  ) %>%
+  tab_options(
+    row.striping.background_color = "grey95",
+    data_row.padding = px(6),
+    column_labels.padding = px(8)
+  )
