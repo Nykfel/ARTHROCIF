@@ -122,7 +122,10 @@ p_mantel_hamming + p_mantel_tree
 #############
 library(reshape2)
 library(patchwork)
+ord <- hclust(cifA_hamming_dist)$order
 
+mat_cifA <- mat_cifA[ord, ord]
+mat_cifB <- mat_cifB[ord, ord]
 # Matrices Hamming
 mat_cifA <- as.matrix(cifA_hamming_dist)
 mat_cifB <- as.matrix(cifB_hamming_dist)
@@ -165,3 +168,4 @@ p_heat_cifB <- ggplot(df_cifB, aes(x = Seq1, y = Seq2, fill = Distance)) +
 )
 
 p_heat_cifA + p_heat_cifB
+
