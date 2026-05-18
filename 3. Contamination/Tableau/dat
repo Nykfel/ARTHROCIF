@@ -1,4 +1,4 @@
-Espèce	Clade	BioSample	S	Accession du Scaffold	Type CifB	Nombre de cifB	cifA	Taille du scaffold 	Annotation Bakta	Profil génomique du scaffold 	Env. Gén. du locus cif	Interprétation 
+Espèce	Clade	BioSample	S	Accession du Scaffold	Type CifB	Nombre de cifB	cifA	Taille du scaffold 	Annotation Bakta	Profil génomique du scaffold 	Env. Génomique du locus cif	Interprétation 
 P. aegeria	Lepidoptera	Psw		CAKXAJ010007522.1	I	1	oui	129433	oui	Bactérien	Bactérien	Incertain
 D. ananassae	Diptera	cHI	T	NW_025319039.1	I	1	oui	869178	oui	Chimérique	Bactérien	Incertain
 D. ananassae	Diptera	cHI	T	NW_025319040.1	I	1	oui	399214	oui	Chimérique	Bactérien	PCIE
