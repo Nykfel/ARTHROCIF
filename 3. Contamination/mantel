@@ -1,0 +1,119 @@
+rm(list = ls())
+
+library(vegan)
+library(ggplot2)
+library(ape)
+
+############################
+# TEST 1 : distances Hamming
+############################
+
+CifA_matrice <- read.table(
+  "C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/CifA_matrice.txt",
+  header = TRUE,
+  row.names = 1,
+  sep = ",",
+  check.names = FALSE
+)
+
+CifB_matrice <- read.table(
+  "C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/CifB_matrice.txt",
+  header = TRUE,
+  row.names = 1,
+  sep = ",",
+  check.names = FALSE
+)
+
+CifA_matrice[] <- lapply(CifA_matrice, function(x) as.numeric(gsub("%", "", x)))
+CifB_matrice[] <- lapply(CifB_matrice, function(x) as.numeric(gsub("%", "", x)))
+
+cifA_hamming_dist <- as.dist(CifA_matrice)
+cifB_hamming_dist <- as.dist(CifB_matrice)
+
+common_taxa_hamming <- intersect(labels(cifA_hamming_dist), labels(cifB_hamming_dist))
+
+cifA_hamming_dist <- as.dist(as.matrix(cifA_hamming_dist)[common_taxa_hamming, common_taxa_hamming])
+cifB_hamming_dist <- as.dist(as.matrix(cifB_hamming_dist)[common_taxa_hamming, common_taxa_hamming])
+
+mantel_hamming <- mantel(
+  cifA_hamming_dist,
+  cifB_hamming_dist,
+  method = "spearman",
+  permutations = 9999
+)
+
+mantel_hamming
+
+mantel_hamming_df <- data.frame(
+  cifA = as.vector(cifA_hamming_dist),
+  cifB = as.vector(cifB_hamming_dist)
+)
+
+p_mantel_hamming <- ggplot(mantel_hamming_df, aes(x = cifA, y = cifB)) +
+  geom_point(size = 5, alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "grey70") +
+  labs(
+    x = "Distance entre séquences de cifA",
+    y = "Distance entre séquences de cifB"
+  ) +
+  theme_classic(base_size = 12)
+
+p_mantel_hamming
+
+
+##########################################
+# TEST 2 : distances phylogénétiques arbres
+##########################################
+
+cifA_tree <- read.tree("C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/cifA.raxml.nwk")
+cifB_tree <- read.tree("C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/cifB.raxml.nwk")
+
+# Correction du nom différent
+cifA_tree$tip.label[cifA_tree$tip.label == "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522"] <-
+  "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522.1"
+
+cifB_tree$tip.label[cifB_tree$tip.label == "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522"] <-
+  "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522.1"
+
+setdiff(cifA_tree$tip.label, cifB_tree$tip.label)
+setdiff(cifB_tree$tip.label, cifA_tree$tip.label)
+
+cifA_tree_dist <- cophenetic.phylo(cifA_tree)
+cifB_tree_dist <- cophenetic.phylo(cifB_tree)
+
+cifA_tree_dist <- as.dist(cifA_tree_dist)
+cifB_tree_dist <- as.dist(cifB_tree_dist)
+
+common_taxa_tree <- intersect(labels(cifA_tree_dist), labels(cifB_tree_dist))
+
+cifA_tree_dist <- as.dist(as.matrix(cifA_tree_dist)[common_taxa_tree, common_taxa_tree])
+cifB_tree_dist <- as.dist(as.matrix(cifB_tree_dist)[common_taxa_tree, common_taxa_tree])
+
+mantel_tree <- mantel(
+  cifA_tree_dist,
+  cifB_tree_dist,
+  method = "spearman",
+  permutations = 9999
+)
+
+mantel_tree
+
+mantel_tree_df <- data.frame(
+  cifA = as.vector(cifA_tree_dist),
+  cifB = as.vector(cifB_tree_dist)
+)
+
+p_mantel_tree <- ggplot(mantel_tree_df, aes(x = cifA, y = cifB)) +
+  geom_point(size = 5, alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "grey70") +
+  labs(
+    x = "Distance phylogénétique de cifA basée sur les longueurs de branches",
+    y = "Distance phylogénétique de cifB basée sur les longueurs de branches"
+  ) +
+  theme_classic(base_size = 12)
+
+p_mantel_tree
+
+
+
+p_mantel_hamming + p_mantel_tree
