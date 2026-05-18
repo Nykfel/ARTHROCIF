@@ -117,3 +117,51 @@ p_mantel_tree
 
 
 p_mantel_hamming + p_mantel_tree
+
+
+#############
+library(reshape2)
+library(patchwork)
+
+# Matrices Hamming
+mat_cifA <- as.matrix(cifA_hamming_dist)
+mat_cifB <- as.matrix(cifB_hamming_dist)
+
+# Format long
+df_cifA <- melt(mat_cifA)
+df_cifB <- melt(mat_cifB)
+
+colnames(df_cifA) <- c("Seq1", "Seq2", "Distance")
+colnames(df_cifB) <- c("Seq1", "Seq2", "Distance")
+
+# Heatmap CifA
+p_heat_cifA <- ggplot(df_cifA, aes(x = Seq1, y = Seq2, fill = Distance)) +
+  geom_tile() +
+  labs(
+    title = "Distances entre séquences de cifA",
+    x = NULL,
+    y = NULL,
+    fill = "Distance"
+  ) +
+  theme_classic(base_size = 10) +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
+    axis.text.y = element_text(size = 6)
+  )
+
+# Heatmap CifB
+p_heat_cifB <- ggplot(df_cifB, aes(x = Seq1, y = Seq2, fill = Distance)) +
+  geom_tile() +
+  labs(
+    title = "Distances entre séquences de cifB",
+    x = NULL,
+    y = NULL,
+    fill = "Distance"
+  ) +
+  theme_classic(base_size = 10) +
+  theme(
+  axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
+  axis.text.y = element_blank()
+)
+
+p_heat_cifA + p_heat_cifB
