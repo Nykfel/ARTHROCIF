@@ -1,6 +1,6 @@
 Espèce	Clade	BioSample	S	Accession du Scaffold	Type CifB	Nombre de cifB	cifA	Taille du scaffold 	Annotation Bakta	Profil génomique du scaffold 	Env. Génomique du locus cif	Interprétation 
 P. aegeria	Lepidoptera	Psw		CAKXAJ010007522.1	I	1	oui	129433	oui	Bactérien	Bactérien	Incertain
-D. ananassae	Diptera	cHI	T	NW_025319039.1	I	1	oui	869178	oui	Chimérique	Bactérien	Incertain
+D. ananassae	Diptera	cHI	T	NW_025319039.1	I	1	oui	869178	oui	Chimérique	Bactérien	PCIE
 D. ananassae	Diptera	cHI	T	NW_025319040.1	I	1	oui	399214	oui	Chimérique	Bactérien	PCIE
 D. ananassae	Diptera	cHI	T	NW_025319042.1	II	1	oui	1278241	oui	Chimérique	Bactérien	PCIE
 D. ananassae	Diptera	cHI	T	NW_025319046.1	II	1	oui	623120	oui	Bactérien	Bactérien	Incertain
@@ -10,7 +10,7 @@ T. californicum	Phasmida	T76		OE198796.1	VI	1	oui	4315	non	NA	NA	Incertain
 G. buenoi	Hemiptera	Swe94		CDWWKY010000139.1	VIII	2	oui	1950620	oui	Bactérien	Bactérien	Incertain
 A. vulgare	Isopoda	WXf-1543		LYUU01002088.1	VIII	3	oui	2798100	oui	Chimérique	Bactérien	PCIE
 H. vitripennis	Hemiptera	Tul88		JAGXCG010014681.1	VIII	2	oui	225163	oui	Bactérien	Bactérien	Incertain
-A. ventricosus	Araneae	Yam34		BGPR01000016.1	IX	1	oui	3802477	oui	Eucaryote	Bactérien	Incertain
+A. ventricosus	Araneae	Yam34		BGPR01000016.1	IX	1	oui	3802477	oui	Chimérique	Bactérien	PCIE
 N. pilipes	Araneae	Oki30		BMAW01089947.1	IX	1	oui	4377	non	NA	NA	Incertain
 P. argentipes	Diptera	P92		NW_026776177.1	IX	1	non	18667202	oui	Eucaryote	Eucaryote	Incertain
 B. calyciflorus	Rotifera	Ploen		CAJNOC010001747.1	IX	1	non	18187	non	NA	NA	Incertain
