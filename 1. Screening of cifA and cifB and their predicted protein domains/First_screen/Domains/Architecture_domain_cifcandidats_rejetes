@@ -1,7 +1,9 @@
 library(dplyr)
 library(ggplot2)
+library(patchwork)
 
 unique(df$Domain)
+
 dom_cols <- c(
   "AAA_ATPase_like"             = "#2CA25F",
   "PD__D_E_XK_nuclease"         = "#D73027",
@@ -11,15 +13,17 @@ dom_cols <- c(
   "Ankyrin_repeat"              = "#40E0D0",
   "Pore_forming_toxin_TcdA_B"   = "pink",
   "Latrotoxin"                  = "#D12A83",
-  "unknown"                     = "gray90"
+  "Unknown"                     = "gray90"
 )
 
 plot_one_source <- function(df_source,
+                            x_limits,
                             box_halfheight = 0.28,
                             mark_halfheight = 0.35,
-                            show_legend = TRUE) {
+                            show_x_axis = TRUE) {
   
   source_name <- unique(df_source$Source)
+  x_label <- if (show_x_axis) "Position (aa)" else ""
   
   df2 <- df_source %>%
     mutate(
@@ -99,7 +103,7 @@ plot_one_source <- function(df_source,
     )
   )
   
-  ggplot() +
+  p <- ggplot() +
     geom_segment(
       data = backbone,
       aes(x = x, xend = xend, y = y, yend = yend),
@@ -118,12 +122,15 @@ plot_one_source <- function(df_source,
       linewidth = 0.25,
       lineend = "butt"
     ) +
-    scale_fill_manual(name = "Domain", values = pal, drop = FALSE) +
+    scale_fill_manual(values = pal, drop = FALSE) +
     scale_color_manual(
-      name = "Domain",
       values = c("START" = "#006400", "STOP" = "black"),
       limits = c("START", "STOP"),
       drop = FALSE
+    ) +
+    scale_x_continuous(
+      limits = x_limits,
+      expand = expansion(mult = c(0.01, 0.01))
     ) +
     scale_y_continuous(
       breaks = seq_along(seq_levels),
@@ -132,7 +139,7 @@ plot_one_source <- function(df_source,
     ) +
     labs(
       title = source_name,
-      x = "Position (aa)",
+      x = x_label,
       y = NULL
     ) +
     theme_minimal(base_size = 12) +
@@ -141,9 +148,20 @@ plot_one_source <- function(df_source,
       panel.grid.minor = element_blank(),
       axis.text.y = element_text(size = 8),
       plot.title = element_text(face = "bold"),
-      legend.position = if (show_legend) "right" else "none",
+      legend.position = "none",
       plot.margin = margin(5.5, 5.5, 5.5, 20)
     )
+  
+  if (!show_x_axis) {
+    p <- p +
+      theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()
+      )
+  }
+  
+  p
 }
 
 plot_domain_architecture <- function(df) {
@@ -156,12 +174,23 @@ plot_domain_architecture <- function(df) {
          paste(missing_needed, collapse = ", "))
   }
   
+  df <- df %>%
+    mutate(
+      START = as.numeric(START),
+      END = as.numeric(END),
+      taille = as.numeric(taille)
+    )
+  
+  x_max <- max(c(df$taille, df$END), na.rm = TRUE)
+  x_limits <- c(1, x_max)
+  
   sources <- unique(df$Source)
   
   plots <- lapply(seq_along(sources), function(i) {
     plot_one_source(
       df_source = df %>% filter(Source == sources[i]),
-      show_legend = i == length(sources)
+      x_limits = x_limits,
+      show_x_axis = sources[i] != "Blast"
     )
   })
   
