@@ -1,0 +1,53 @@
+library(gt)
+
+dat <- read.delim("C:/Users/Mael RICHON/Downloads/Re Code 3 figures (2)/dat.txt")
+dat$Identifiant <- dat$Identifiant %>%
+  sub("_$", "", .) %>%
+  gsub("_", " ", .) %>%
+  trimws() %>%
+  sub("^([^ ]+ [^ ]+)(.*)$", "*\\1*\\2", .)
+tab = dat
+
+gt(tab) %>%
+  cols_label_with(
+    fn = function(x) gsub("\\.", " ", x)
+  ) %>%
+  fmt_markdown(columns = Identifiant) %>%
+  opt_row_striping() %>%
+  cols_align(
+    align = "center",
+    columns = -1
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#e6308f", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "I")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#e08640", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "II")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#95d042", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "IV")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#25bef4", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows = Type.de.Cif == "VI")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#6b7bae", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "VIII")
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#915ead", weight = "bold"),
+    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "IX")
+  ) %>%
+  tab_options(
+    row.striping.background_color = "grey95",
+    data_row.padding = px(6),
+    column_labels.padding = px(8)
+  )
