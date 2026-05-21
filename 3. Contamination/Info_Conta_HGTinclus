@@ -8,8 +8,13 @@ library(coin)
 #========================
 
 info <- read.delim(
-  "C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Genomes_references/info.txt"
+  "C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Genomes_references/info.txt",
+  check.names = FALSE
 )
+
+names(info) <- trimws(names(info))
+
+info$Name_original <- info$Name
 
 info$Sequence <- sub("/.*", "", info$Sequence)
 info$Clade <- factor(info$Clade)
@@ -41,12 +46,16 @@ info <- info %>%
 
 # Données pour les figures : toutes les modalités
 info_fig <- info %>%
-  mutate(Clade = factor(Clade))
+  mutate(
+    Clade = factor(Clade, levels = c("Bacterie", "Eucaryote", "Candidat"))
+  )
 
 # Données pour les tests : uniquement Eucaryote et Bacterie
 info_stats <- info %>%
   filter(Clade %in% c("Eucaryote", "Bacterie")) %>%
-  mutate(Clade = factor(Clade, levels = c("Bacterie", "Eucaryote"))) %>%
+  mutate(
+    Clade = factor(Clade, levels = c("Bacterie", "Eucaryote"))
+  ) %>%
   droplevels()
 
 # Vérifications rapides
@@ -87,7 +96,12 @@ make_letters_two_groups <- function(data_stats, response, pval, alpha = 0.05) {
       mutate(letter = "a")
   }
   
-  tmp$y <- 0.92
+  tmp <- tmp %>%
+    mutate(
+      x = as.numeric(Clade),
+      y = 0.92
+    )
+  
   tmp
 }
 
@@ -99,22 +113,59 @@ make_panel <- function(data_fig, data_stats, response, ylab, pval, title_panel, 
     pval = pval
   )
   
-  ggplot(data_fig, aes(x = Clade, y = .data[[response]], fill = Clade)) +
+  data_boxplot <- data_fig %>%
+    filter(Clade != "Candidat")
+  
+  data_candidat <- data_fig %>%
+    filter(Clade == "Candidat") %>%
+    arrange(.data[[response]]) %>%
+    mutate(
+      x_base = as.numeric(Clade),
+      x_point = x_base + rep(c(-0.05, 0.05), length.out = n()),
+      x_label = x_point + rep(c(-0.09, 0.09), length.out = n()),
+      hjust_label = rep(c(1, 0), length.out = n())
+    )
+  
+  ggplot(data_fig, aes(
+    x = as.numeric(Clade),
+    y = .data[[response]],
+    fill = Clade,
+    group = Clade
+  )) +
+    
     geom_boxplot(
+      data = data_boxplot,
       width = 0.55,
       alpha = 0.75,
       outlier.shape = NA,
       color = "black",
       linewidth = 0.5
     ) +
-    geom_jitter(
-      width = 0.08,
-      height = 0,
+    
+    geom_point(
+      data = data_candidat,
+      aes(x = x_point, y = .data[[response]]),
+      inherit.aes = FALSE,
       size = 2.2,
       alpha = 0.9,
       color = "black"
     ) +
+    
+    geom_text(
+      data = data_candidat,
+      aes(
+        x = x_label,
+        y = .data[[response]],
+        label = Name_original,
+        hjust = hjust_label
+      ),
+      inherit.aes = FALSE,
+      size = 3,
+      color = "black"
+    ) +
+    
     stat_summary(
+      data = data_boxplot,
       fun = mean,
       geom = "point",
       shape = 23,
@@ -123,34 +174,48 @@ make_panel <- function(data_fig, data_stats, response, ylab, pval, title_panel, 
       color = "black",
       stroke = 0.7
     ) +
+    
     geom_text(
       data = lab_df,
-      aes(x = Clade, y = y, label = letter),
+      aes(x = x, y = y, label = letter),
       inherit.aes = FALSE,
       fontface = "bold",
       size = 5
     ) +
+    
     scale_fill_manual(values = colors) +
+    
+    scale_x_continuous(
+      breaks = 1:3,
+      labels = c("Bacterie", "Eucaryote", "Candidat"),
+      expand = expansion(mult = c(0.05, 0.18))
+    ) +
+    
     scale_y_continuous(
       limits = c(0, 1),
       breaks = seq(0, 1, by = 0.2),
       labels = seq(0, 1, by = 0.2),
       expand = c(0, 0)
     ) +
+    
+    coord_cartesian(clip = "off") +
+    
     labs(
       title = title_panel,
       subtitle = format_p(pval),
       x = NULL,
       y = ylab
     ) +
+    
     theme_classic(base_size = 12) +
+    
     theme(
       legend.position = "none",
       plot.title = element_text(face = "bold"),
       plot.subtitle = element_text(size = 10),
       axis.text.x = element_text(face = "bold"),
       axis.title.y = element_text(face = "bold"),
-      plot.margin = margin(8, 10, 8, 8)
+      plot.margin = margin(8, 25, 8, 8)
     )
 }
 
@@ -190,9 +255,6 @@ test_annot
 # 4. Palette de couleurs
 #========================
 
-info_fig$Clade <- factor(info_fig$Clade, levels = c("Bacterie", "Eucaryote", "Candidat"))
-info_stats$Clade <- factor(info_stats$Clade, levels = c("Bacterie", "Eucaryote"))
-
 palette_clade <- c(
   "Bacterie" = "#4C78A8",
   "Eucaryote" = "#F58518",
@@ -202,7 +264,6 @@ palette_clade <- c(
 #========================
 # 5. Création des panneaux
 #========================
-
 
 p1 <- make_panel(
   data_fig = info_fig,
@@ -228,7 +289,7 @@ p3 <- make_panel(
   data_fig = info_fig,
   data_stats = info_stats,
   response = "prop_annotated",
-  ylab = "Proportion de CDS annotés",
+  ylab = "Proportion de CDS non hypothétiques",
   pval = p_annot,
   title_panel = "Proportion de CDS non hypothétique",
   colors = palette_clade
