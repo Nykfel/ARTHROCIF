@@ -1,0 +1,21 @@
+Profil génomique	Identifiant	Taille du scaffold	Type de Cif	Nombre de cifB	Profil génomique du scaffold	Interprétation	Notes supplémentaires
+oui	Pararge_aegeria_Psw_	129433	I	1*	Bactérien*	Incertain	
+oui	Drosophila_ananassae_cHI_1	399214	I	1*	Chimérique*	PCIE	Traitement tétracycline
+oui	Drosophila_ananassae_cHI_2	869178	I	1*	Chimérique*	PCIE	Traitement tétracycline
+oui	Drosophila_ananassae_cHI_3	623120	II	1*	Bactérien*	Incertain	Traitement tétracycline
+oui	Drosophila_ananassae_cHI_4	1278241	II	1*	Chimérique*	PCIE	Traitement tétracycline
+oui	Amblyptilia_punctidactyla_iAmb_	31938278	IV	1*	Bactérien*	Incertain	Symbiontes : N
+oui	Abscondita_terminalis_Ate-2015_	105083	VI	1*	Bactérien*	Incertain	Assembly contaminé
+oui	Gerris_buenoi_Swe94_	1950620	VIII	2*	Bactérien*	Incertain	
+oui	Armadillidium_vulgare_WXf-1543_	2798100	VIII	3*	Chimérique*	PCIE	
+oui	Homalodisca_vitripennis_Tu88_	225163	VIII	2*	Bactérien*	Incertain	
+oui	Araneus_ventricosus_Yam34_	3802477	IX	1*	Chimérique*	PCIE	
+oui	Phlebotomus_argentipes_P92_	18667202	IX	1	Eucaryote	Incertain	
+oui	Dendroctonus_ponderosae_FM20_	16553750	IX	3	Eucaryote	Incertain	
+oui	Dendroctonus_ponderosae_FM20_	16386110	IX	1	Eucaryote	Incertain	
+oui	Lutzomyia_longipalpis_SR22_	31137733	IX	2	Eucaryote	Incertain	
+oui	Ditylenchus_destructor_GSAUP_	326386	NA	1	Eucaryote	Incertain	
+non	Timema_californicum_T76_	4315	VI	1*	NA	Incertain	
+non	Nephila_pilipes_Oki30_	4377	IX	1*	NA	Incertain	
+non	Brachionus_calyciflorus_Ploen_	18187	IX	1	NA	Incertain	
+non	Trichonephila_clavata_Yam55_	96149	NA	1	NA	Incertain	
