@@ -49,13 +49,20 @@ gt(tab) %>%
   tab_style(
     style = cell_text(
       weight = "bold",
-      v_align = "middle"
+      v_align = "middle",
+      color = "black"
     ),
-    locations = cells_column_labels()
+    locations = cells_column_labels(columns = everything())
+  ) %>%
+  tab_style(
+    style = cell_text(
+      color = "black"
+    ),
+    locations = cells_body(columns = everything())
   ) %>%
   tab_options(
+    table.font.color = "black",
     row.striping.background_color = "white",
     data_row.padding = px(6),
     column_labels.padding = px(8)
   )
-
