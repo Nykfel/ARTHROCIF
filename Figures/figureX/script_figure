@@ -1,0 +1,68 @@
+library(dplyr)
+library(ggplot2)
+
+plot_data <- bind_rows(
+  d %>% mutate(Tableau = "d"),
+  e %>% mutate(Tableau = "e")
+) %>%
+  mutate(
+    E_value = as.numeric(gsub(",", ".", E_value)),
+    E_value = ifelse(E_value == 0, min(E_value[E_value > 0], na.rm = TRUE) / 10, E_value),
+    Cif_like = as.factor(Cif_like),
+    Nom_sequence = paste(Scientific_Name, Selected_Accession, sep = " - "),
+    Couleur = case_when(
+      Cif_like == "0" ~ "0",
+      Cif_like == "1" & Tableau == "d" ~ "d_1",
+      Cif_like == "1" & Tableau == "e" ~ "e_1"
+    )
+  ) %>%
+  arrange(Tableau, E_value)
+
+plot_data$Nom_sequence_panel <- factor(
+  paste(plot_data$Tableau, plot_data$Nom_sequence, sep = "___"),
+  levels = rev(unique(paste(plot_data$Tableau, plot_data$Nom_sequence, sep = "___")))
+)
+
+ggplot(plot_data, aes(x = E_value, y = Nom_sequence_panel, color = Couleur)) +
+  geom_point(size = 3) +
+  geom_vline(
+    xintercept = 0.005,
+    color = "black",
+    linewidth = 1,
+    linetype = "dashed"
+  ) +
+  scale_x_log10() +
+  scale_y_discrete(
+    labels = function(x) sub(".*___", "", x)
+  ) +
+  scale_color_manual(
+    values = c(
+      "0" = "grey",
+      "d_1" = "#e47272",
+      "e_1" = "#8263ac"
+    ),
+    labels = c(
+      "0" = "Cif_like = 0",
+      "d_1" = "Cif_like = 1, tableau d",
+      "e_1" = "Cif_like = 1, tableau e"
+    ),
+    name = "Cif_like"
+  ) +
+  facet_grid(
+    rows = vars(Tableau),
+    scales = "free_y",
+    space = "free_y"
+  ) +
+  labs(
+    x = "E-value (échelle log10)",
+    y = "Séquences"
+  ) +
+  theme_bw()
+
+write.table(
+  e,
+  "clipboard",
+  sep = "\t",
+  row.names = FALSE,
+  quote = FALSE
+)
