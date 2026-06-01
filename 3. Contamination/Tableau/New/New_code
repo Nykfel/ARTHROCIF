@@ -10,24 +10,33 @@ dat <- d %>%
       sub("^([^ ]+ [^ ]+)(.*)$", "*\\1*\\2", .)
   )
 
+tab <- dat %>%
+  select(-3)
+
 label_fun <- function(x) {
+  x <- x %>%
+    gsub("\\.+", " ", .) %>%
+    trimws()
+  
   x <- ifelse(
-    x == "Statut.d.exploration",
+    grepl("^Statut d exploration", x),
     "Statut d'exploration",
     x
   )
   
+  x <- ifelse(
+    x == "Taille du scaffold kb",
+    "Taille du scaffold (kb)",
+    x
+  )
+  
   x <- x %>%
-    gsub("\\.+", " ", .) %>%
-    trimws() %>%
     gsub("cifA", "*cifA*", ., fixed = TRUE) %>%
     gsub("cifB", "*cifB*", ., fixed = TRUE) %>%
     gsub("\\bcif\\b", "*cif*", ., perl = TRUE)
   
   md(x)
 }
-
-tab <- dat
 
 gt(tab) %>%
   cols_label_with(
