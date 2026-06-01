@@ -1,22 +1,47 @@
+library(dplyr)
 library(gt)
 
-dat <- read.delim("C:/Users/Mael RICHON/Downloads/Re Code 3 figures (2)/dat.txt")
-dat$Identifiant <- dat$Identifiant %>%
-  sub("_$", "", .) %>%
-  gsub("_", " ", .) %>%
-  trimws() %>%
-  sub("^([^ ]+ [^ ]+)(.*)$", "*\\1*\\2", .)
-tab = dat
+dat <- d %>%
+  mutate(
+    Identifiant = Identifiant %>%
+      sub("_$", "", .) %>%
+      gsub("_", " ", .) %>%
+      trimws() %>%
+      sub("^([^ ]+ [^ ]+)(.*)$", "*\\1*\\2", .)
+  )
+
+label_fun <- function(x) {
+  x <- ifelse(
+    x == "Statut.d.exploration",
+    "Statut d'exploration",
+    x
+  )
+  
+  x <- x %>%
+    gsub("\\.+", " ", .) %>%
+    trimws() %>%
+    gsub("cifA", "*cifA*", ., fixed = TRUE) %>%
+    gsub("cifB", "*cifB*", ., fixed = TRUE) %>%
+    gsub("\\bcif\\b", "*cif*", ., perl = TRUE)
+  
+  md(x)
+}
+
+tab <- dat
 
 gt(tab) %>%
   cols_label_with(
-    fn = function(x) gsub("\\.", " ", x)
+    fn = label_fun
   ) %>%
   fmt_markdown(columns = Identifiant) %>%
   opt_row_striping() %>%
   cols_align(
     align = "center",
-    columns = -1
+    columns = everything()
+  ) %>%
+  cols_align(
+    align = "left",
+    columns = Identifiant
   ) %>%
   tab_style(
     style = cell_text(weight = "bold"),
@@ -24,27 +49,27 @@ gt(tab) %>%
   ) %>%
   tab_style(
     style = cell_text(color = "#e6308f", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "I")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "I")
   ) %>%
   tab_style(
     style = cell_text(color = "#e08640", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "II")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "II")
   ) %>%
   tab_style(
     style = cell_text(color = "#95d042", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "IV")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "IV")
   ) %>%
   tab_style(
     style = cell_text(color = "#25bef4", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows = Type.de.Cif == "VI")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "VI")
   ) %>%
   tab_style(
     style = cell_text(color = "#6b7bae", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "VIII")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "VIII")
   ) %>%
   tab_style(
     style = cell_text(color = "#915ead", weight = "bold"),
-    locations = cells_body(columns =Type.de.Cif, rows =Type.de.Cif== "IX")
+    locations = cells_body(columns = Type.de.cif, rows = Type.de.cif == "IX")
   ) %>%
   tab_options(
     row.striping.background_color = "grey95",
