@@ -1,21 +1,21 @@
-Profil génomique	Identifiant	Taille du scaffold	Type de Cif	Nombre de cifB	Profil génomique du scaffold	Interprétation	Notes supplémentaires
-oui	Pararge_aegeria_Psw_	129433	I	1*	Bactérien*	Incertain	
-oui	Drosophila_ananassae_cHI_1	399214	I	1*	Chimérique*	PCIE	Traitement tétracycline
-oui	Drosophila_ananassae_cHI_2	869178	I	1*	Chimérique*	PCIE	Traitement tétracycline
-oui	Drosophila_ananassae_cHI_3	623120	II	1*	Bactérien*	Incertain	Traitement tétracycline
-oui	Drosophila_ananassae_cHI_4	1278241	II	1*	Chimérique*	PCIE	Traitement tétracycline
-oui	Amblyptilia_punctidactyla_iAmb_	31938278	IV	1*	Bactérien*	Incertain	Symbiontes : N
-oui	Abscondita_terminalis_Ate-2015_	105083	VI	1*	Bactérien*	Incertain	Assembly contaminé
-oui	Gerris_buenoi_Swe94_	1950620	VIII	2*	Bactérien*	Incertain	
-oui	Armadillidium_vulgare_WXf-1543_	2798100	VIII	3*	Chimérique*	PCIE	
-oui	Homalodisca_vitripennis_Tu88_	225163	VIII	2*	Bactérien*	Incertain	
-oui	Araneus_ventricosus_Yam34_	3802477	IX	1*	Chimérique*	PCIE	
-oui	Phlebotomus_argentipes_P92_	18667202	IX	1	Eucaryote	Incertain	
-oui	Dendroctonus_ponderosae_FM20_	16553750	IX	3	Eucaryote	Incertain	
-oui	Dendroctonus_ponderosae_FM20_	16386110	IX	1	Eucaryote	Incertain	
-oui	Lutzomyia_longipalpis_SR22_	31137733	IX	2	Eucaryote	Incertain	
-oui	Ditylenchus_destructor_GSAUP_	326386	NA	1	Eucaryote	Incertain	
-non	Timema_californicum_T76_	4315	VI	1*	NA	Incertain	
-non	Nephila_pilipes_Oki30_	4377	IX	1*	NA	Incertain	
-non	Brachionus_calyciflorus_Ploen_	18187	IX	1	NA	Incertain	
-non	Trichonephila_clavata_Yam55_	96149	NA	1	NA	Incertain	
+Statut d’exploration	Identifiant	Taille du scaffold	Taille du scaffold (kb)	Type de cif	Nombre de cifB	Profil génomique du scaffold	Insertion des cif	Notes supplémentaires
+Environnement exploré	Pararge_aegeria_Psw_	129433	129,4	I	1*	Bactérien*	Incertain	
+Environnement exploré	Drosophila_ananassae_cHI_1	399214	399,2	I	1*	Chimérique*	Confirmé	Traitement tétracycline
+Environnement exploré	Drosophila_ananassae_cHI_2	869178	869,2	I	1*	Chimérique*	Confirmé	Traitement tétracycline
+Environnement exploré	Drosophila_ananassae_cHI_3	623120	623,1	II	1*	Bactérien*	Incertain	Traitement tétracycline
+Environnement exploré	Drosophila_ananassae_cHI_4	1278241	1278,2	II	1*	Chimérique*	Confirmé	Traitement tétracycline
+Environnement exploré	Amblyptilia_punctidactyla_iAmb_	31938278	31938,3	IV	1*	Bactérien*	Incertain	
+Environnement exploré	Abscondita_terminalis_Ate-2015_	105083	105,1	VI	1*	Bactérien*	Incertain	Assemblage « contaminé »
+Environnement exploré	Gerris_buenoi_Swe94_	1950620	1950,6	VIII	2*	Bactérien*	Incertain	
+Environnement exploré	Armadillidium_vulgare_WXf-1543_	2798100	2798,1	VIII	3*	Chimérique*	Confirmé	
+Environnement exploré	Homalodisca_vitripennis_Tu88_	225163	225,2	VIII	2*	Bactérien*	Incertain	
+Environnement exploré	Araneus_ventricosus_Yam34_	3802477	3802,5	IX	1*	Chimérique*	Confirmé	
+Environnement exploré	Phlebotomus_argentipes_P92_	18667202	18667,2	IX	1	Eucaryote	Confirmé	
+Environnement exploré	Dendroctonus_ponderosae_FM20_	16553750	16553,8	IX	3	Eucaryote	Confirmé	
+Environnement exploré	Dendroctonus_ponderosae_FM20_	16386110	16386,1	IX	1	Eucaryote	Confirmé	
+Environnement exploré	Lutzomyia_longipalpis_SR22_	31137733	31137,7	IX	2	Eucaryote	Confirmé	
+Environnement exploré	Ditylenchus_destructor_GSAUP_	326386	326,4	NA	1	Eucaryote	Confirmé	
+Environnement non exploré	Timema_californicum_T76_	4315	4,3	VI	1*	NA	Incertain	
+Environnement non exploré	Nephila_pilipes_Oki30_	4377	4,4	IX	1*	NA	Incertain	
+Environnement non exploré	Brachionus_calyciflorus_Ploen_	18187	18,2	IX	1	NA	Incertain	
+Environnement non exploré	Trichonephila_clavata_Yam55_	96149	96,1	NA	1	NA	Incertain	
