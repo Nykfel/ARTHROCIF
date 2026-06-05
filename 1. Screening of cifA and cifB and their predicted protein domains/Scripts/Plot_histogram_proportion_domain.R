@@ -1,0 +1,117 @@
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+data <- read.delim("C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/CifB/temporaire/data.txt")
+long = data
+
+# Suppression des lignes où les deux domaines nucléases sont présents
+long <- long %>%
+  filter(
+    is.na(PD..D.E.XK_nuclease_1_START) |
+      is.na(PD..D.E.XK_nuclease_2_START)
+  )
+
+sum(!is.na(long$PD..D.E.XK_nuclease_1_START))
+
+dom_cols <- c(
+  "AAA_ATPase_like"             = "#2CA25F",
+  "PD-(D/E)XK_nuclease"         = "#D73027",
+  "ULP1"                        = "#8ECDF4",
+  "OTU-like_cysteine_protease"  = "orange",
+  "DUF3491"                     = "gray65",
+  "RTX_toxin"                   = "#003366",
+  "Ankyrin_repeat"              = "#40E0D0",
+  "Pore_forming_toxin_TcdA/B"   = "pink",
+  "Latrotoxin"                  = "#D12A83",
+  "Unknown"                     = "gray90",
+  "RNA-binding-like"            = "purple",
+  "Apoptosis_regulator-like"    = "#FFD814",
+  "Salivary-gland_toxin"        = "#365729",
+  "TPR_repeats"                 = "#513D73"
+)
+
+ordre_domaines <- c(
+  "OTU-like_cysteine_protease",
+  "AAA_ATPase_like",
+  "PD-(D/E)XK_nuclease",
+  "ULP1"
+)
+
+domain_prop <- long %>%
+  select(ends_with("_START")) %>%
+  select(
+    -starts_with("unknown"),
+    -starts_with("STOP"),
+    -Ankyrin_repeat_2_START
+  ) %>%
+  summarise(
+    across(
+      everything(),
+      ~ mean(!is.na(.x))
+    )
+  ) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "domaine_original",
+    values_to = "proportion"
+  ) %>%
+  mutate(
+    domaine = sub("_START$", "", domaine_original),
+    domaine = case_when(
+      grepl("^PD..D.E.XK_nuclease", domaine) ~ "PD-(D/E)XK_nuclease",
+      grepl("^Ankyrin_repeat", domaine) ~ "Ankyrin_repeat",
+      domaine == "Pore_forming_toxin_TcdA.B" ~ "Pore_forming_toxin_TcdA/B",
+      domaine == "OTU.like_cysteine_protease" ~ "OTU-like_cysteine_protease",
+      TRUE ~ domaine
+    )
+  ) %>%
+  group_by(domaine) %>%
+  summarise(
+    proportion = mean(proportion),
+    .groups = "drop"
+  ) %>%
+  arrange(
+    ifelse(domaine %in% ordre_domaines, match(domaine, ordre_domaines), 999),
+    desc(proportion)
+  ) %>%
+  mutate(
+    domaine = factor(domaine, levels = domaine),
+    domaine_lab = gsub("_", " ", as.character(domaine)),
+    domaine_lab = factor(domaine_lab, levels = domaine_lab)
+  )
+
+y_max <- 0.35
+
+ggplot(domain_prop, aes(x = domaine_lab, y = proportion, fill = domaine)) +
+  geom_col(color = "black", linewidth = 0.25) +
+  scale_y_continuous(
+    limits = c(0, y_max),
+    labels = percent
+  ) +
+  scale_fill_manual(values = dom_cols) +
+  labs(
+    x = "Domaine",
+    y = "Proportion de séquences présentant le domaine"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid = element_blank(),
+    panel.border = element_rect(color = "grey70", fill = NA, linewidth = 0.35),
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+library(ggplot2)
+library(dplyr)
+
+df_pie <- tibble(
+  categorie = c("64", "94 - 64"),
+  valeur = c(64, 94 - 64)
+)
+
+ggplot(df_pie, aes(x = "", y = valeur, fill = categorie)) +
+  geom_col(color = "black", linewidth = 0.25) +
+  coord_polar(theta = "y") +
+  labs(fill = "Catégorie") +
+  theme_void()
