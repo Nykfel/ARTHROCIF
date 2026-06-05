@@ -1,0 +1,209 @@
+Physical cores: 6
+Logical cores:  12
+Memory:         62.8GB
+Extensions:     AVX
+
+WARNING: Partition DATA: Sequences RNA-binding-like_Drosophila_ananassae_cHI_NW_025319039.1_cifB_NW_025319039.1_487595..490300 and RNA-binding-like_Drosophila_ananassae_cHI_NW_025319040.1_cifB_NW_025319040.1_368026..370731 are identical
+WARNING: Partition DATA: Sequences RNA-binding-like_Armadillidium_vulgare_WXf-1543_OJH31528.1_cifB_OJH31527.1 and RNA-binding-like_Armadillidium_vulgare_WXf-1543_OJH32250.1_cifB_OJH32251.1 are identical
+WARNING: Partition DATA: Sequences RNA-binding-like_Armadillidium_vulgare_WXf-1543_OJH31528.1_cifB_OJH31527.1 and RNA-binding-like_Armadillidium_vulgare_WXf-1543_OJH32953.1_cifB_OJH32952.1 are identical
+WARNING: Empirical invariant sites proportion for partition DATA is 0
+         You should consider excluding +I and +I+G models from the analysis
+
+WARNING: MSA has not enough sites to infer reliable results
+Creating new checkpoint file: CifA_pair.fa.ckp
+--------------------------------------------------------------------------------
+ModelTest-NG v0.1.7
+
+Input data:
+  MSA:        CifA_pair.fa
+  Tree:       Maximum parsimony
+    file:           -
+  #taxa:            17
+  #sites:           131
+  #patterns:        131
+  Max. thread mem:  5 MB
+
+Output:
+  Log:           CifA_pair.fa.log
+  Starting tree: CifA_pair.fa.tree
+  Results:       CifA_pair.fa.out
+
+Selection options:
+  # protein matrices: 19
+  # protein models:   57
+  include model parameters:
+    Uniform:         false
+    p-inv (+I):      true
+    gamma (+G):      true
+    both (+I+G):     true
+    free rates (+R): false
+    fixed freqs:     true
+    estimated freqs: false
+    #categories:     4
+  gamma rates mode:   mean
+  asc bias:           none
+  epsilon (opt):      0.01
+  epsilon (par):      0.05
+  keep branches:      false
+
+Additional options:
+  verbosity:        very low
+  threads:          12/6
+  RNG seed:         12345
+  subtree repeats:  enabled
+--------------------------------------------------------------------------------
+modeltest-ng was called as follows: 
+>> modeltest-ng -i CifA_pair.fa -p 12 -T raxml -d aa 
+
+
+Partition 1/1
+
+ ----ID---  ----MODEL---- ---Time--- -Elapsed--- -------LnL------- -Alpha- -P-inv-
+
+Computation of likelihood scores completed. It took 0h:00:00
+
+BIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1     -3400.1682      6956.3426         0.0000    0.6253
+       2  JTT-DCMUT+G4       1     -3400.9324      6957.8712         1.5286    0.2912
+       3  JTT+I+G4           2     -3400.1692      6961.2200         4.8774    0.0546
+       4  JTT-DCMUT+I+G4     2     -3400.9335      6962.7485         6.4059    0.0254
+       5  JTT+I              1     -3405.7295      6967.4653        11.1227    0.0024
+       6  JTT-DCMUT+I        1     -3406.4517      6968.9098        12.5672    0.0012
+       7  HIVB+G4            1     -3411.1449      6978.2961        21.9535    0.0000
+       8  HIVB+I+G4          2     -3411.1454      6983.1722        26.8296    0.0000
+       9  CPREV+G4           1     -3414.5863      6985.1788        28.8362    0.0000
+      10  CPREV+I+G4         2     -3414.5857      6990.0530        33.7104    0.0000
+--------------------------------------------------------------------------------
+Best model according to BIC
+---------------------------
+Model:              JTT+G4
+lnL:                -3400.1682
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        7.0060
+Score:              6956.3426
+Weight:             0.6253
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0036
+Gamma:              0.9164
+Gamma-Inv:          0.0800
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              7.0191
+Alpha-P.Inv:        6.9203
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_pair.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_pair.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_pair.fa --model JTT+G4
+  > paup -s CifA_pair.fa
+  > iqtree -s CifA_pair.fa -m JTT+G4
+
+AIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1     -3400.1682      6864.3363         0.0000    0.4975
+       2  JTT-DCMUT+G4       1     -3400.9324      6865.8649         1.5286    0.2317
+       3  JTT+I+G4           2     -3400.1692      6866.3385         2.0022    0.1828
+       4  JTT-DCMUT+I+G4     2     -3400.9335      6867.8670         3.5307    0.0851
+       5  JTT+I              1     -3405.7295      6875.4590        11.1227    0.0019
+       6  JTT-DCMUT+I        1     -3406.4517      6876.9035        12.5672    0.0009
+       7  HIVB+G4            1     -3411.1449      6886.2898        21.9535    0.0000
+       8  HIVB+I+G4          2     -3411.1454      6888.2907        23.9544    0.0000
+       9  CPREV+G4           1     -3414.5863      6893.1725        28.8362    0.0000
+      10  CPREV+I+G4         2     -3414.5857      6895.1715        30.8352    0.0000
+--------------------------------------------------------------------------------
+Best model according to AIC
+---------------------------
+Model:              JTT+G4
+lnL:                -3400.1682
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        7.0060
+Score:              6864.3363
+Weight:             0.4975
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0028
+Gamma:              0.7292
+Gamma-Inv:          0.2680
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              7.0191
+Alpha-P.Inv:        6.9203
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_pair.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_pair.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_pair.fa --model JTT+G4
+  > paup -s CifA_pair.fa
+  > iqtree -s CifA_pair.fa -m JTT+G4
+
+AICc      model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1     -3400.1682      6885.3363         0.0000    0.5990
+       2  JTT-DCMUT+G4       1     -3400.9324      6886.8649         1.5286    0.2789
+       3  JTT+I+G4           2     -3400.1692      6889.3385         4.0022    0.0810
+       4  JTT-DCMUT+I+G4     2     -3400.9335      6890.8670         5.5307    0.0377
+       5  JTT+I              1     -3405.7295      6896.4590        11.1227    0.0023
+       6  JTT-DCMUT+I        1     -3406.4517      6897.9035        12.5672    0.0011
+       7  HIVB+G4            1     -3411.1449      6907.2898        21.9535    0.0000
+       8  HIVB+I+G4          2     -3411.1454      6911.2907        25.9544    0.0000
+       9  CPREV+G4           1     -3414.5863      6914.1725        28.8362    0.0000
+      10  CPREV+I+G4         2     -3414.5857      6918.1715        32.8352    0.0000
+--------------------------------------------------------------------------------
+Best model according to AICc
+---------------------------
+Model:              JTT+G4
+lnL:                -3400.1682
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        7.0060
+Score:              6885.3363
+Weight:             0.5990
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0034
+Gamma:              0.8779
+Gamma-Inv:          0.1187
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              7.0191
+Alpha-P.Inv:        6.9203
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_pair.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_pair.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_pair.fa --model JTT+G4
+  > paup -s CifA_pair.fa
+  > iqtree -s CifA_pair.fa -m JTT+G4
+Summary:
+
+Partition 1/1:
+                         Model         Score        Weight
+----------------------------------------------------------
+       BIC              JTT+G4     6956.3426        0.6253
+       AIC              JTT+G4     6864.3363        0.4975
+      AICc              JTT+G4     6885.3363        0.5990
+
+Execution results written to CifA_pair.fa.out
+Starting tree written to CifA_pair.fa.tree

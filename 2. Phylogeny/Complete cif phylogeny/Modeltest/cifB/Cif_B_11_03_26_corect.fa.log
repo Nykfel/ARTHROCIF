@@ -1,0 +1,227 @@
+Physical cores: 24
+Logical cores:  48
+Memory:         142GB
+Extensions:     AVX
+
+WARNING: Partition DATA: Sequences NW_025319040.1_Drosophila_ananassae and NW_025319039.1_Drosophila_ananassae are identical
+WARNING: Partition DATA: Sequences NW_025319040.1_Drosophila_ananassae and wRi_00593_594 are identical
+WARNING: Partition DATA: Sequences NW_025319040.1_Drosophila_ananassae and wRi_01119_1120 are identical
+WARNING: Partition DATA: Sequences NW_025319046.1_Drosophila_ananassae and NW_025319042.1_Drosophila_ananassae are identical
+WARNING: Partition DATA: Sequences NW_025319046.1_Drosophila_ananassae and wRi_00741 are identical
+WARNING: Partition DATA: Sequences OJH31527.1_Armadillidium_vulgare and OJH32251.1_Armadillidium_vulgare are identical
+WARNING: Partition DATA: Sequences OJH31527.1_Armadillidium_vulgare and OJH32952.1_Armadillidium_vulgare are identical
+WARNING: Partition DATA: Sequences KAH1011015.1_Dendroctonus_ponderosae and XP_019765667.1_Dendroctonus_ponderosae are identical
+WARNING: Partition DATA: Sequences XM_019910107.2_Dendroctonus_ponderosae and XM_048665546.1_Dendroctonus_ponderosae are identical
+WARNING: Partition DATA: Sequences MesenetGL2_00341 and MesenetL5_00647 are identical
+WARNING: Partition DATA: Sequences MesenetL5_00422 and MesenetGL2_00289 are identical
+WARNING: Partition DATA: Sequences REDioLin_01112 and REDioRuf02_00993 are identical
+WARNING: Partition DATA: Sequences REPolTer_01684 and REPolTer_01729 are identical
+WARNING: Partition DATA: Sequences RambAc37_01158 and RambAn13_00006 are identical
+WARNING: Partition DATA: Sequences RambAc37_01158 and RambDW_01274_01275 are identical
+WARNING: Partition DATA: Sequences RambAc37_01158 and RambGAT_01151 are identical
+WARNING: Partition DATA: Sequences RambAc37_01158 and RambAcpa_01372_1374 are identical
+WARNING: Partition DATA: Sequences RambAc37_01158 and RambMeda_AcajP2_012443_01238 are identical
+WARNING: Partition DATA: Sequences RheiTIGMIC_01169 and RhooCS_00745_746 are identical
+WARNING: Partition DATA: Sequences wAdent_01078 and wAlbB_00481 are identical
+WARNING: Partition DATA: Sequences wAdent_01078 and wVitA_00397 are identical
+WARNING: Partition DATA: Sequences SpiroDCM94_0002 and SpiroDCF100_0002 are identical
+WARNING: Empirical invariant sites proportion for partition DATA is 0
+         You should consider excluding +I and +I+G models from the analysis
+
+Creating new checkpoint file: Cif_B_11_03_26_corect.fa.ckp
+--------------------------------------------------------------------------------
+ModelTest-NG v0.1.7
+
+Input data:
+  MSA:        Cif_B_11_03_26_corect.fa
+  Tree:       Maximum parsimony
+    file:           -
+  #taxa:            112
+  #sites:           192
+  #patterns:        192
+  Max. thread mem:  52 MB
+
+Output:
+  Log:           Cif_B_11_03_26_corect.fa.log
+  Starting tree: Cif_B_11_03_26_corect.fa.tree
+  Results:       Cif_B_11_03_26_corect.fa.out
+
+Selection options:
+  # protein matrices: 19
+  # protein models:   57
+  include model parameters:
+    Uniform:         false
+    p-inv (+I):      true
+    gamma (+G):      true
+    both (+I+G):     true
+    free rates (+R): false
+    fixed freqs:     true
+    estimated freqs: false
+    #categories:     4
+  gamma rates mode:   mean
+  asc bias:           none
+  epsilon (opt):      0.01
+  epsilon (par):      0.05
+  keep branches:      false
+
+Additional options:
+  verbosity:        very low
+  threads:          12/24
+  RNG seed:         12345
+  subtree repeats:  enabled
+--------------------------------------------------------------------------------
+modeltest-ng was called as follows: 
+>> modeltest-ng -i Cif_B_11_03_26_corect.fa -p 12 -T raxml -d aa 
+
+
+Partition 1/1
+
+ ----ID---  ----MODEL---- ---Time--- -Elapsed--- -------LnL------- -Alpha- -P-inv-
+
+Computation of likelihood scores completed. It took 0h:00:05
+
+BIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1    -15667.7563     32502.6765         0.0000    0.9327
+       2  CPREV+I+G4         2    -15667.7569     32507.9352         5.2587    0.0673
+       3  JTT+G4             1    -15691.9214     32551.0067        48.3302    0.0000
+       4  JTT-DCMUT+G4       1    -15693.7211     32554.6062        51.9296    0.0000
+       5  JTT+I+G4           2    -15691.9214     32556.2644        53.5878    0.0000
+       6  JTT-DCMUT+I+G4     2    -15693.7212     32559.8639        57.1874    0.0000
+       7  VT+G4              1    -15703.7803     32574.7246        72.0481    0.0000
+       8  VT+I+G4            2    -15703.7800     32579.9814        77.3049    0.0000
+       9  WAG+G4             1    -15718.9204     32605.0048       102.3282    0.0000
+      10  WAG+I+G4           2    -15718.9274     32610.2762       107.5997    0.0000
+--------------------------------------------------------------------------------
+Best model according to BIC
+---------------------------
+Model:              CPREV+G4
+lnL:                -15667.7563
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        1.8963
+Score:              32502.6765
+Weight:             0.9327
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.9327
+Gamma-Inv:          0.0673
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              1.8963
+Alpha-P.Inv:        1.8969
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i Cif_B_11_03_26_corect.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s Cif_B_11_03_26_corect.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa Cif_B_11_03_26_corect.fa --model CPREV+G4
+  > paup -s Cif_B_11_03_26_corect.fa
+  > iqtree -s Cif_B_11_03_26_corect.fa -m CPREV+G4
+
+AIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1    -15667.7563     31779.5126         0.0000    0.7312
+       2  CPREV+I+G4         2    -15667.7569     31781.5137         2.0012    0.2688
+       3  JTT+G4             1    -15691.9214     31827.8427        48.3302    0.0000
+       4  JTT+I+G4           2    -15691.9214     31829.8429        50.3303    0.0000
+       5  JTT-DCMUT+G4       1    -15693.7211     31831.4422        51.9296    0.0000
+       6  JTT-DCMUT+I+G4     2    -15693.7212     31833.4425        53.9299    0.0000
+       7  VT+G4              1    -15703.7803     31851.5606        72.0481    0.0000
+       8  VT+I+G4            2    -15703.7800     31853.5600        74.0474    0.0000
+       9  WAG+G4             1    -15718.9204     31881.8408       102.3282    0.0000
+      10  WAG+I+G4           2    -15718.9274     31883.8547       104.3422    0.0000
+--------------------------------------------------------------------------------
+Best model according to AIC
+---------------------------
+Model:              CPREV+G4
+lnL:                -15667.7563
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        1.8963
+Score:              31779.5126
+Weight:             0.7312
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.7312
+Gamma-Inv:          0.2688
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              1.8963
+Alpha-P.Inv:        1.8969
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i Cif_B_11_03_26_corect.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s Cif_B_11_03_26_corect.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa Cif_B_11_03_26_corect.fa --model CPREV+G4
+  > paup -s Cif_B_11_03_26_corect.fa
+  > iqtree -s Cif_B_11_03_26_corect.fa -m CPREV+G4
+
+AICc      model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1    -15667.7563    130791.5126         0.0000    1.0000
+       2  JTT+G4             1    -15691.9214    130839.8427        48.3302    0.0000
+       3  JTT-DCMUT+G4       1    -15693.7211    130843.4422        51.9296    0.0000
+       4  VT+G4              1    -15703.7803    130863.5606        72.0481    0.0000
+       5  WAG+G4             1    -15718.9204    130893.8408       102.3282    0.0000
+       6  LG+G4              1    -15729.0212    130914.0425       122.5299    0.0000
+       7  BLOSUM62+G4        1    -15821.7052    131099.4103       307.8978    0.0000
+       8  PMB+G4             1    -15830.0325    131116.0650       324.5524    0.0000
+       9  FLU+G4             1    -15885.1135    131226.2269       434.7144    0.0000
+      10  CPREV+I            1    -15947.6460    131351.2920       559.7794    0.0000
+--------------------------------------------------------------------------------
+Best model according to AICc
+---------------------------
+Model:              CPREV+G4
+lnL:                -15667.7563
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        1.8963
+Score:              130791.5126
+Weight:             1.0000
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              1.0000
+Gamma-Inv:          0.0000
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              1.8963
+Alpha-P.Inv:        1.8969
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i Cif_B_11_03_26_corect.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s Cif_B_11_03_26_corect.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa Cif_B_11_03_26_corect.fa --model CPREV+G4
+  > paup -s Cif_B_11_03_26_corect.fa
+  > iqtree -s Cif_B_11_03_26_corect.fa -m CPREV+G4
+Summary:
+
+Partition 1/1:
+                         Model         Score        Weight
+----------------------------------------------------------
+       BIC            CPREV+G4    32502.6765        0.9327
+       AIC            CPREV+G4    31779.5126        0.7312
+      AICc            CPREV+G4   130791.5126        1.0000
+
+Execution results written to Cif_B_11_03_26_corect.fa.out
+Starting tree written to Cif_B_11_03_26_corect.fa.tree

@@ -1,0 +1,177 @@
+--------------------------------------------------------------------------------
+ModelTest-NG v0.1.7
+
+Input data:
+  MSA:        CifB_pair.fa
+  Tree:       Maximum parsimony
+    file:           -
+  #taxa:            17
+  #sites:           221
+  #patterns:        218
+  Max. thread mem:  8 MB
+
+Output:
+  Log:           CifB_pair.fa.log
+  Starting tree: CifB_pair.fa.tree
+  Results:       CifB_pair.fa.out
+
+Selection options:
+  # protein matrices: 19
+  # protein models:   57
+  include model parameters:
+    Uniform:         false
+    p-inv (+I):      true
+    gamma (+G):      true
+    both (+I+G):     true
+    free rates (+R): false
+    fixed freqs:     true
+    estimated freqs: false
+    #categories:     4
+  gamma rates mode:   mean
+  asc bias:           none
+  epsilon (opt):      0.01
+  epsilon (par):      0.05
+  keep branches:      false
+
+Additional options:
+  verbosity:        very low
+  threads:          12/6
+  RNG seed:         12345
+  subtree repeats:  enabled
+--------------------------------------------------------------------------------
+
+BIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1     -4671.1291      9514.9994         0.0000    0.9280
+       2  CPREV+I+G4         2     -4671.0145      9520.1684         5.1690    0.0700
+       3  VT+G4              1     -4677.3794      9527.5000        12.5006    0.0018
+       4  VT+I+G4            2     -4677.0127      9532.1648        17.1654    0.0002
+       5  WAG+G4             1     -4681.8547      9536.4505        21.4511    0.0000
+       6  WAG+I+G4           2     -4681.8135      9541.7663        26.7669    0.0000
+       7  JTT-DCMUT+G4       1     -4685.3595      9543.4603        28.4609    0.0000
+       8  JTT+G4             1     -4685.5821      9543.9054        28.9060    0.0000
+       9  JTT-DCMUT+I+G4     2     -4684.9623      9548.0640        33.0646    0.0000
+      10  JTT+I+G4           2     -4685.1274      9548.3942        33.3948    0.0000
+--------------------------------------------------------------------------------
+Best model according to BIC
+---------------------------
+Model:              CPREV+G4
+lnL:                -4671.1291
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        2.7972
+Score:              9514.9994
+Weight:             0.9280
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.9298
+Gamma-Inv:          0.0702
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0201
+Alpha:              2.7976
+Alpha-P.Inv:        2.8754
+P.Inv-Alpha:        0.0045
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifB_pair.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifB_pair.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifB_pair.fa --model CPREV+G4
+  > paup -s CifB_pair.fa
+  > iqtree -s CifB_pair.fa -m CPREV+G4
+
+AIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1     -4671.1291      9406.2582         0.0000    0.7065
+       2  CPREV+I+G4         2     -4671.0145      9408.0291         1.7709    0.2914
+       3  VT+G4              1     -4677.3794      9418.7588        12.5006    0.0014
+       4  VT+I+G4            2     -4677.0127      9420.0254        13.7672    0.0007
+       5  WAG+G4             1     -4681.8547      9427.7093        21.4511    0.0000
+       6  WAG+I+G4           2     -4681.8135      9429.6270        23.3688    0.0000
+       7  JTT-DCMUT+G4       1     -4685.3595      9434.7191        28.4609    0.0000
+       8  JTT+G4             1     -4685.5821      9435.1642        28.9060    0.0000
+       9  JTT-DCMUT+I+G4     2     -4684.9623      9435.9246        29.6664    0.0000
+      10  JTT+I+G4           2     -4685.1274      9436.2549        29.9967    0.0000
+--------------------------------------------------------------------------------
+Best model according to AIC
+---------------------------
+Model:              CPREV+G4
+lnL:                -4671.1291
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        2.7972
+Score:              9406.2582
+Weight:             0.7065
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.7078
+Gamma-Inv:          0.2922
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0201
+Alpha:              2.7976
+Alpha-P.Inv:        2.8754
+P.Inv-Alpha:        0.0045
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifB_pair.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifB_pair.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifB_pair.fa --model CPREV+G4
+  > paup -s CifB_pair.fa
+  > iqtree -s CifB_pair.fa -m CPREV+G4
+
+AICc      model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  CPREV+G4           1     -4671.1291      9417.2582         0.0000    0.7982
+       2  CPREV+I+G4         2     -4671.0145      9420.0291         2.7709    0.1997
+       3  VT+G4              1     -4677.3794      9429.7588        12.5006    0.0015
+       4  VT+I+G4            2     -4677.0127      9432.0254        14.7672    0.0005
+       5  WAG+G4             1     -4681.8547      9438.7093        21.4511    0.0000
+       6  WAG+I+G4           2     -4681.8135      9441.6270        24.3688    0.0000
+       7  JTT-DCMUT+G4       1     -4685.3595      9445.7191        28.4609    0.0000
+       8  JTT+G4             1     -4685.5821      9446.1642        28.9060    0.0000
+       9  JTT-DCMUT+I+G4     2     -4684.9623      9447.9246        30.6664    0.0000
+      10  JTT+I+G4           2     -4685.1274      9448.2549        30.9967    0.0000
+--------------------------------------------------------------------------------
+Best model according to AICc
+---------------------------
+Model:              CPREV+G4
+lnL:                -4671.1291
+Frequencies:        0.0755 0.0621 0.0410 0.0371 0.0091 0.0382 0.0495 0.0838 0.0246 0.0806 0.1011 0.0504 0.0220 0.0506 0.0431 0.0622 0.0543 0.0181 0.0307 0.0660
+Inv. sites prop:    -
+Gamma shape:        2.7972
+Score:              9417.2582
+Weight:             0.7982
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.7998
+Gamma-Inv:          0.2002
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0201
+Alpha:              2.7976
+Alpha-P.Inv:        2.8754
+P.Inv-Alpha:        0.0045
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifB_pair.fa -d aa -m CPREV -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifB_pair.fa -m PROTGAMMACPREV -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifB_pair.fa --model CPREV+G4
+  > paup -s CifB_pair.fa
+  > iqtree -s CifB_pair.fa -m CPREV+G4
+Done
