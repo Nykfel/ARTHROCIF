@@ -5,32 +5,36 @@ library(ggalluvial)
 
 ############################
 # 1. Données CifA puis CifB
+# Étapes conservées : 1, 2, 3c et 4
 ############################
 
 df_cifA <- tibble(
   type_cif = "A) CifA",
-  etape = 1:5,
-  Genome_tblastx = c(14, 2, 2, 2, 2),
-  Genome_tblastn = c(8, 2, 0, 0, 0),
-  Blast_blastp   = c(704, 67, 67, 67, 67),
-  Blast_tblastx  = c(267, 58, 19, 19, 18),
-  Blast_tblastn  = c(295, 61, 18, 18, 15)
+  etape = c("1", "2", "3c", "4"),
+  Genome_tblastx = c(14, 2, 2, 2),
+  Genome_tblastn = c(8, 2, 0, 0),
+  Blast_tblastx  = c(267, 58, 19, 18),
+  Blast_tblastn  = c(295, 61, 18, 15),
+  Blast_blastp   = c(704, 67, 67, 67)
 )
 
 df_cifB <- tibble(
   type_cif = "B) CifB",
-  etape = 1:5,
-  Liste = c(45, 45, 45, 45, 7),
-  Genome_tblastx = c(8, 2, 2, 2, 2),
-  Genome_tblastn = c(8, 2, 2, 2, 2),
-  Blast_tblastx  = c(36, 18, 5, 5, 1),
-  Blast_tblastn  = c(34, 16, 13, 10, 3),
-  Blast_blastp   = c(94, 35, 35, 33, 12)
+  etape = c("1", "2", "3c", "4"),
+  Liste = c(45, 45, 45, 7),
+  Genome_tblastx = c(8, 2, 2, 2),
+  Genome_tblastn = c(8, 2, 2, 2),
+  Blast_tblastx  = c(36, 18, 5, 1),
+  Blast_tblastn  = c(34, 16, 10, 3),
+  Blast_blastp   = c(94, 35, 33, 12)
 )
 
 df <- bind_rows(df_cifA, df_cifB) %>%
   mutate(
-    type_cif = factor(type_cif, levels = c("A) CifA", "B) CifB"))
+    type_cif = factor(
+      type_cif,
+      levels = c("A) CifA", "B) CifB")
+    )
   )
 
 ############################
@@ -59,13 +63,13 @@ dat <- df %>%
     stratum = variable,
     etape_lab = factor(
       etape,
-      levels = 1:5,
-      labels = c("1)", "2)", "3)", "4)", "5)")
+      levels = c("1", "2", "3c", "4"),
+      labels = c("1)", "2)", "3c)", "4)")
     )
   )
 
 ############################
-# 3. Seuils d'affichage des labels
+# 3. Seuils d'affichage
 ############################
 
 seuil_cifA <- 20
@@ -112,7 +116,9 @@ figure_globale <- ggplot(
                 grepl("blastp$", stratum), "Bp",
                 ifelse(
                   grepl("tblastx$", stratum), "tbx",
-                  ifelse(grepl("tblastn$", stratum), "tbn", "")
+                  ifelse(
+                    grepl("tblastn$", stratum), "tbn", ""
+                  )
                 )
               ),
               " ",
@@ -131,7 +137,7 @@ figure_globale <- ggplot(
       "Liste"  = "#E15759"
     )
   ) +
-  facet_wrap(~ type_cif, scales = "free_y") +
+  facet_wrap(~type_cif, scales = "free_y") +
   labs(
     x = "Étapes de filtrage",
     y = "Nombre de séquences",
