@@ -1,0 +1,34 @@
+
+RAxML-NG v. 1.1.0 released on 29.11.2021 by The Exelixis Lab.
+Developed by: Alexey M. Kozlov and Alexandros Stamatakis.
+Contributors: Diego Darriba, Tomas Flouri, Benoit Morel, Sarah Lutteropp, Ben Bettisworth.
+Latest version: https://github.com/amkozlov/raxml-ng
+Questions/problems/suggestions? Please visit: https://groups.google.com/forum/#!forum/raxml
+
+System: Intel(R) Xeon(R) CPU E5-2630 v2 @ 2.60GHz, 12 cores, 62 GB RAM
+
+RAxML-NG was called at 05-Mar-2026 17:00:37 as follows:
+
+raxml-ng --support --tree alignement_2-raxmlng.raxml.bestTree --bs-trees alignement_2-raxmlng.raxml.bootstraps --prefix alignement_2-boot --threads 6
+
+Analysis options:
+  run mode: Compute bipartition support (Felsenstein Bootstrap)
+  start tree(s): user
+  random seed: 1772726437
+  SIMD kernels: AVX
+  parallelization: coarse-grained (auto), PTHREADS (6 threads), thread pinning: OFF
+
+Reading reference tree from file: alignement_2-raxmlng.raxml.bestTree
+Reference tree size: 172
+
+Reading bootstrap trees from file: alignement_2-raxmlng.raxml.bootstraps
+Loaded 1000 trees with 172 taxa.
+
+Best ML tree with Felsenstein bootstrap (FBP) support values saved to: /scratch/richon/Alignement2/alignement_2-boot.raxml.support
+
+Execution log saved to: /scratch/richon/Alignement2/alignement_2-boot.raxml.log
+
+Analysis started: 05-Mar-2026 17:00:37 / finished: 05-Mar-2026 17:00:38
+
+Elapsed time: 0.416 seconds
+
