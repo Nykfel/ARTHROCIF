@@ -989,8 +989,8 @@ make_souche_panel <- function(
 
     scale_fill_manual(
       values = c(
-        "CifA + CifB" = "#FF9B85",
-        "CifB seul" = "#FFF385",
+        "CifA + CifB" = "white",
+        "CifB seul" = "grey20",
         "CifA seul" = "green"
       )
     ) +
