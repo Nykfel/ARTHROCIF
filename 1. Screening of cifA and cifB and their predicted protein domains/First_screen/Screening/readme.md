@@ -7,7 +7,3 @@ A first search was conducted using the `PSI-BLAST` algorithm against the Non-red
 For each method, the search was restricted to eukaryotic organisms. For each species of interest identified, only the two BLAST hits with the lowest E-values were retained, and this was done separately for each method in order to avoid method-specific bias (filtering script: [Filtered.R](https://github.com/Nykfel/ARTHROCIF/blob/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/First_screen/Screening/Support/Filtered.R)).
 
 Sequences with an E-value greater than 0.005 were considered non-significant and were therefore excluded.
-
-
-BlastcifAB mis à jour le 02/044/26, ajout des selected_accession, modification nécessaire pour genomes
-Pour BLAST et GENOMES peut être déplacer le filtre sur selected_accession plutôt que sur Blast_hit, depuis l'ajout de selected_accession il n'y a aucune raison valable de filtrer à l'échelle de blast_hit (juste faire un simple slice(1) grpby selected accession + order by Evalue)
