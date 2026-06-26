@@ -10,4 +10,4 @@ This page is still under development. Regular updates are planned to complete th
 
 Click on the map to open the interactive PDF.
 
-[![Interactive project map](assets/project_map.png)](https://Nykfel.github.io/ARTHROCIF/project_map.pdf)
+[![Interactive project map](MAP.png)](https://nykfel.github.io/ARTHROCIF/MAP.pdf)
