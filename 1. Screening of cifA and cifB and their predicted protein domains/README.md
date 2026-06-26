@@ -1,13 +1,7 @@
 ### 1. Screening of cifA and cifB and their predicted protein domains
 
-This repository accompanies my Master 2 internship report, supervised by Julien Amoros and Olivier Duron, on the origin, evolution and potential functional role of bacterial *cif* gene insertions in eukaryotic genomes, mainly in arthropods.
+This section contains all _cif_-like sequences identified in the study, together with the associated information, including the detection method, predicted protein architecture, and classification as _cif_ genes. It notably contains the [scripts](https://github.com/Nykfel/ARTHROCIF/blob/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/First_screen/Screening/Support/Filtered.R) used to filter and select the final sequence dataset that was subsequently analysed.
 
-*cif* genes are known for their involvement in cytoplasmic incompatibility induced by endosymbiotic bacteria such as *Wolbachia*. The aim of this project was to identify eukaryotic homologs of these genes, characterize their taxonomic distribution, protein domain organization, phylogenetic placement and genomic environment, and assess their evolutionary origin and potential functional significance.
+The [first screen](https://github.com/Nykfel/ARTHROCIF/tree/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/First_screen) refers to the initial cif screening, based on the collection and reassessment of cif homologues described in the literature, combined with exploratory BLAST searches.
 
-This repository contains the scripts, intermediate data and methodological details used to generate the main results of the report. It includes files related to homology searches, protein domain annotation, phylogenetic analyses, congruence tests between *cifA* and *cifB*, and the analysis of genomic environments surrounding the insertions.
-
-This page is still under development. Regular updates are planned to complete the documentation, clarify the organization of the files and improve the reproducibility of the analyses.
-
-Click on the map below to open the interactive PDF.
-
-[MAP.pdf](https://github.com/user-attachments/files/29375621/MAP.pdf)
+The [second screen](https://github.com/Nykfel/ARTHROCIF/tree/main/1.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/Second_screen) refers to the targeted search for _cifA_ genes associated with each _cifB_ candidate, as described in Section 1.4 of the thesis.
