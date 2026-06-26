@@ -9,135 +9,33 @@ library(stringr)
 # ============================================================
 
 d <- read.delim(
-  "C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/cif_like/data.txt",
+  "C:/Users/2026mr001/Desktop/guipguiphp/data_CDS.txt",
   stringsAsFactors = FALSE
 )
 
-e <- read.delim(
-  "C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/cif_like/e.txt",
+info <- read.delim(
+  "C:/Users/2026mr001/Desktop/Stage/Identification cif/cif-like/Check conta/Genomes_references/info.txt",
   stringsAsFactors = FALSE
 )
 
-par(mfrow = c(1, 1))
+# Suppression de la partie située après "/" dans Sequence
+info$Sequence <- sub("/.*", "", info$Sequence)
 
+# Vérification des identifiants qui ne correspondent pas
+setdiff(unique(d$Souche), unique(info$Sequence))
 
-# ============================================================
-# 2. PREMIER FILTRE SUR LA LONGUEUR DES SCAFFOLDS
-# ============================================================
-
-# Ce filtre est conservé tel qu'il figurait dans ton script.
-# Il implique que seuls les scaffolds strictement supérieurs
-# à 1 Mb sont conservés.
-d <- d %>%
-  filter(Scaffold_length > 1000000)
-
-
-# ============================================================
-# 3. AJOUT DES INFORMATIONS DU TABLEAU e
-# ============================================================
-
-# Préparation du tableau utilisé pour la jointure
-e_join <- e %>%
-  select(
-    Abrv,
-    Organism,
-    Accession,
-    Cif_Type
-  ) %>%
-  distinct()
-
-# Vérification : une même abréviation est-elle associée
-# à plusieurs lignes différentes dans e ?
-e_duplicates <- e_join %>%
-  count(Abrv, name = "n") %>%
-  filter(n > 1)
-
-if (nrow(e_duplicates) > 0) {
-  warning(
-    "Certaines valeurs de Abrv correspondent à plusieurs lignes dans e. ",
-    "La jointure peut donc dupliquer certaines lignes de d."
-  )
-
-  print(e_duplicates)
-}
-
-# Ajout du nom de l'organisme, de l'accession et du type de cif
-d <- d %>%
-  left_join(
-    e_join,
-    by = c("Souche" = "Abrv")
-  )
-
-# Filtre facultatif sur un type particulier de cif
-# d <- d %>%
-#   filter(Cif_Type == "I")
-
-
-# ============================================================
-# 4. REMPLACEMENT DES ABRÉVIATIONS PAR LES NOMS COMPLETS
-# ============================================================
-
-d <- d %>%
-  mutate(
-    Souche = Organism
-  ) %>%
-  select(-Organism)
+# Remplacement des identifiants par les noms des souches
+d$Souche <- info$Name[match(d$Souche, info$Sequence)]
 
 # Vérification des correspondances manquantes
-missing_metadata <- d %>%
-  filter(
-    is.na(Souche) |
-      is.na(Accession)
-  ) %>%
-  distinct(Souche, Accession)
-
-if (nrow(missing_metadata) > 0) {
-  warning(
-    "Certaines lignes n'ont pas reçu de nom d'organisme ",
-    "ou d'accession après la jointure."
-  )
-
-  print(missing_metadata)
-}
-
+d %>%
+  filter(is.na(Souche))
 
 # ============================================================
-# 5. SECOND FILTRE SUR LA LONGUEUR DES SCAFFOLDS
+# 2. PRÉPARATION DES DONNÉES
 # ============================================================
 
-# Ce filtre est également conservé.
-# Il est toutefois redondant avec le filtre > 1 000 000
-# appliqué précédemment.
-d <- d %>%
-  filter(Scaffold_length > 99999)
-
-
-# ============================================================
-# 6. CONSERVATION DES CDS
-# ============================================================
-
-# Retrait explicite des types non CDS présents dans le script initial
-d <- d %>%
-  filter(
-    !Type %in% c(
-      "ncRNA-region",
-      "tRNA",
-      "sorf",
-      "ncRNA",
-      "tmRNA",
-      "rRNA",
-      "crispr",
-      "crispr-repeat",
-      "crispr-spacer",
-      "assembly_gap",
-      "oriC",
-      "gap"
-    )
-  )
-
-# Conservation stricte des lignes de type CDS
-# Cette deuxième étape garantit qu'un éventuel autre type
-# non prévu dans la liste précédente ne sera pas conservé.
+# Conservation uniquement des CDS
 d <- d %>%
   filter(tolower(Type) == "cds")
 
@@ -145,53 +43,15 @@ d <- d %>%
 all(tolower(d$Type) == "cds")
 unique(d$Type)
 
-if (nrow(d) == 0) {
-  stop(
-    "Aucun CDS ne reste après l'application des filtres."
-  )
-}
-
-
-# ============================================================
-# 7. PRÉPARATION DES COORDONNÉES DES CDS
-# ============================================================
-
-# CDS_start et CDS_end restent dans le bon ordre,
-# y compris pour les CDS situés sur le brin inverse
+# Mise en ordre des coordonnées :
+# utile si Start > Stop pour certains CDS situés sur le brin inverse
 d <- d %>%
   mutate(
     CDS_start = pmin(Start, Stop),
     CDS_end = pmax(Start, Stop)
   )
 
-# Vérification des coordonnées manquantes
-invalid_coordinates <- d %>%
-  filter(
-    is.na(CDS_start) |
-      is.na(CDS_end) |
-      is.na(Scaffold_length)
-  )
-
-if (nrow(invalid_coordinates) > 0) {
-  warning(
-    nrow(invalid_coordinates),
-    " CDS possèdent des coordonnées ou une longueur de scaffold manquantes. ",
-    "Ces lignes sont retirées."
-  )
-
-  d <- d %>%
-    filter(
-      !is.na(CDS_start),
-      !is.na(CDS_end),
-      !is.na(Scaffold_length)
-    )
-}
-
-
-# ============================================================
-# 8. SÉPARATION DES CDS NON HYPOTHÉTIQUES ET HYPOTHÉTIQUES
-# ============================================================
-
+# Classification des protéines hypothétiques
 d <- d %>%
   mutate(
     hypothetical = ifelse(
@@ -206,175 +66,42 @@ d <- d %>%
   )
 
 # Vérification du nombre de CDS dans chaque catégorie
-print(
-  d %>%
-    count(hypothetical)
-)
-
+d %>%
+  count(hypothetical)
 
 # ============================================================
-# 9. PARAMÈTRES GÉNÉRAUX
+# 3. PARAMÈTRES
 # ============================================================
 
 # Taille des fenêtres : 10 kb
 bin_size <- 10000
 
-# Les lignes A et B représentent désormais des proportions
-# nécessairement comprises entre 0 et 1.
+# Limites verticales des lignes A et B
 ymax_a <- 1
 ymax_b <- 1
 
-
 # ============================================================
-# 10. TABLEAU DES SCAFFOLDS
+# 4. TABLEAU DES SCAFFOLDS
 # ============================================================
 
-# Un scaffold est défini par la combinaison :
-# Souche + Accession
+# Le code suppose ici qu'une souche correspond à un seul scaffold
 contigs <- d %>%
-  group_by(
-    Souche,
-    Accession
-  ) %>%
+  group_by(Clade, Souche) %>%
   summarise(
-    Scaffold_length = max(
-      Scaffold_length,
-      na.rm = TRUE
-    ),
+    Scaffold_length = max(Scaffold_length, na.rm = TRUE),
     .groups = "drop"
   ) %>%
-  arrange(
-    Souche,
-    Accession,
-    Scaffold_length
-  )
+  arrange(desc(Scaffold_length))
 
-if (nrow(contigs) == 0) {
-  stop(
-    "Aucun scaffold ne reste après la préparation des données."
-  )
-}
-
-
-# ============================================================
-# 11. DÉFINITION DE L'ÉCHELLE HORIZONTALE COMMUNE
-# ============================================================
-
-max_scaffold_length <- max(
-  contigs$Scaffold_length,
-  na.rm = TRUE
+# Longueur maximale commune utilisée sur les graphiques
+max_len <- ifelse(
+  max(contigs$Scaffold_length, na.rm = TRUE) <= 1000000,
+  1000000,
+  max(contigs$Scaffold_length, na.rm = TRUE)
 )
 
-# Si tous les scaffolds mesurent au maximum 1 Mb,
-# l'axe horizontal s'étend jusqu'à 1 Mb.
-#
-# Si au moins un scaffold dépasse 1 Mb,
-# l'axe s'étend jusqu'à la longueur du scaffold le plus long.
-max_len <- if (
-  max_scaffold_length <= 1000000
-) {
-  1000000
-} else {
-  max_scaffold_length
-}
-
-cat(
-  "Longueur maximale réelle des scaffolds :",
-  max_scaffold_length,
-  "pb\n"
-)
-
-cat(
-  "Limite maximale utilisée pour l'axe des x :",
-  max_len,
-  "pb\n"
-)
-
-
 # ============================================================
-# 12. POSITIONS DES CIF SUR LES SCAFFOLDS
-# ============================================================
-
-# Pour chaque identifiant numérique :
-# - récupération des coordonnées disponibles pour CifA et CifB ;
-# - recherche de la position minimale et maximale ;
-# - calcul du milieu de l'ensemble CifA/CifB ;
-# - détermination de la présence de CifA, CifB ou des deux.
-
-cif_points <- d %>%
-  group_by(
-    Cif_Type,
-    Souche,
-    Accession
-  ) %>%
-  slice(1) %>%
-  ungroup() %>%
-  select(
-    Cif_Type,
-    Souche,
-    Accession,
-    matches(
-      "Cif[AB]_(Start|End)[0-9]+_relative"
-    )
-  ) %>%
-  pivot_longer(
-    cols = -c(
-      Cif_Type,
-      Souche,
-      Accession
-    ),
-    names_to = c(
-      "cif",
-      "coord",
-      "id"
-    ),
-    names_pattern =
-      "(Cif[AB])_(Start|End)([0-9]+)_relative",
-    values_to = "value"
-  ) %>%
-  filter(!is.na(value)) %>%
-  group_by(
-    Cif_Type,
-    Souche,
-    Accession,
-    id
-  ) %>%
-  summarise(
-    min_pos = min(
-      value,
-      na.rm = TRUE
-    ),
-    max_pos = max(
-      value,
-      na.rm = TRUE
-    ),
-    pos = (min_pos + max_pos) / 2,
-    has_CifA = any(cif == "CifA"),
-    has_CifB = any(cif == "CifB"),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    type_triangle = case_when(
-      has_CifA & has_CifB ~ "CifA + CifB",
-      !has_CifA & has_CifB ~ "CifB seul",
-      has_CifA & !has_CifB ~ "CifA seul",
-      TRUE ~ NA_character_
-    )
-  ) %>%
-  filter(!is.na(type_triangle))
-
-# Affichage des colonnes relatives aux cif pour vérification
-print(
-  grep(
-    "Cif",
-    names(d),
-    value = TRUE
-  )
-)
-
-
-# ============================================================
-# 13. CRÉATION DES FENÊTRES DE 10 KB
+# 5. CRÉATION DES FENÊTRES DE 10 KB
 # ============================================================
 
 bins_by_souche <- contigs %>%
@@ -395,162 +122,113 @@ bins_by_souche <- contigs %>%
       bin_start + bin_size - 1,
       Scaffold_length
     ),
-    bin_mid = (
-      bin_start + bin_end
-    ) / 2,
-    bin_length =
-      bin_end - bin_start + 1
+    bin_mid = (bin_start + bin_end) / 2,
+    bin_length = bin_end - bin_start + 1
   )
 
 # Vérification de la longueur des fenêtres
-# La majorité doit mesurer 10 000 pb.
-# Seule la dernière fenêtre de chaque scaffold peut être plus courte.
-print(
-  bins_by_souche %>%
-    count(bin_length) %>%
-    arrange(bin_length)
-)
-
+bins_by_souche %>%
+  count(bin_length)
 
 # ============================================================
-# 14. FONCTION CALCULANT L'UNION DES INTERVALLES
+# 6. FONCTION CALCULANT LA LONGUEUR DE L'UNION DES INTERVALLES
 # ============================================================
 
-# Cette fonction fusionne les intervalles qui se chevauchent
-# ou qui sont directement adjacents.
-#
-# Une position appartenant à plusieurs CDS n'est ainsi comptée
+# Cette fonction fusionne les intervalles qui se chevauchent.
+# Une position appartenant à plusieurs CDS n'est donc comptée
 # qu'une seule fois.
 
 union_length <- function(start, end) {
-
-  # Retrait des coordonnées manquantes
+  
+  # Suppression des valeurs manquantes
   keep <- !is.na(start) & !is.na(end)
-
+  
   start <- start[keep]
   end <- end[keep]
-
-  # Aucun intervalle disponible
+  
+  # Aucun intervalle
   if (length(start) == 0) {
     return(0)
   }
-
-  # Sécurisation de l'ordre des coordonnées
+  
+  # Mise dans le bon ordre des coordonnées
   interval_start <- pmin(start, end)
   interval_end <- pmax(start, end)
-
-  # Tri des intervalles selon leur position de départ,
-  # puis selon leur position de fin
-  interval_order <- order(
-    interval_start,
-    interval_end
-  )
-
-  interval_start <-
-    interval_start[interval_order]
-
-  interval_end <-
-    interval_end[interval_order]
-
+  
+  # Tri selon le début puis la fin des intervalles
+  ord <- order(interval_start, interval_end)
+  
+  interval_start <- interval_start[ord]
+  interval_end <- interval_end[ord]
+  
   # Initialisation avec le premier intervalle
   current_start <- interval_start[1]
   current_end <- interval_end[1]
-
+  
   total_length <- 0
-
-  # Fusion progressive des intervalles
+  
+  # Fusion des intervalles chevauchants
   if (length(interval_start) > 1) {
-
-    for (
-      i in seq.int(
-        from = 2,
-        to = length(interval_start)
-      )
-    ) {
-
-      # Chevauchement ou continuité directe
-      if (
-        interval_start[i] <=
-          current_end + 1
-      ) {
-
+    
+    for (i in 2:length(interval_start)) {
+      
+      # Intervalles chevauchants ou directement adjacents
+      if (interval_start[i] <= current_end + 1) {
+        
         current_end <- max(
           current_end,
           interval_end[i]
         )
-
+        
       } else {
-
-        # Ajout de l'intervalle fusionné précédent
-        total_length <-
-          total_length +
-          (
-            current_end -
-              current_start +
-              1
-          )
-
-        # Initialisation du nouvel intervalle
-        current_start <-
-          interval_start[i]
-
-        current_end <-
-          interval_end[i]
+        
+        # Ajout de la longueur de l'intervalle précédent
+        total_length <- total_length +
+          (current_end - current_start + 1)
+        
+        # Début d'un nouvel intervalle
+        current_start <- interval_start[i]
+        current_end <- interval_end[i]
       }
     }
   }
-
-  # Ajout du dernier intervalle fusionné
+  
+  # Ajout du dernier intervalle
   total_length +
-    (
-      current_end -
-        current_start +
-        1
-    )
+    (current_end - current_start + 1)
 }
 
-
 # ============================================================
-# 15. FONCTION DE CALCUL DE LA COUVERTURE UNIQUE
+# 7. FONCTION DE CALCUL DE LA COUVERTURE UNIQUE PAR FENÊTRE
 # ============================================================
-
-# annotated_only = TRUE :
-# couverture par les CDS non hypothétiques uniquement.
-#
-# annotated_only = FALSE :
-# couverture par tous les CDS.
 
 calculate_unique_coverage <- function(
     data,
     bins,
     annotated_only = FALSE
 ) {
-
+  
   data_selected <- data
-
-  # Pour la ligne A, seuls les CDS non hypothétiques
-  # sont conservés.
+  
+  # Pour la ligne A :
+  # conservation uniquement des CDS non hypothétiques
   if (annotated_only) {
-
+    
     data_selected <- data_selected %>%
       filter(hypothetical == 0)
   }
-
-  # Association de chaque CDS à toutes les fenêtres
-  # qu'il chevauche.
+  
+  # Association de chaque CDS à toutes les fenêtres qu'il traverse
   intersections <- data_selected %>%
     select(
+      Clade,
       Souche,
-      Accession,
       CDS_start,
       CDS_end
     ) %>%
     inner_join(
       bins,
-      by = c(
-        "Souche",
-        "Accession"
-      ),
+      by = c("Clade", "Souche"),
       relationship = "many-to-many"
     ) %>%
     filter(
@@ -558,24 +236,16 @@ calculate_unique_coverage <- function(
       CDS_end >= bin_start
     ) %>%
     mutate(
-      # Partie du CDS effectivement comprise
-      # dans la fenêtre considérée
-      Start_cut = pmax(
-        CDS_start,
-        bin_start
-      ),
-      Stop_cut = pmin(
-        CDS_end,
-        bin_end
-      )
+      # Partie du CDS réellement comprise dans la fenêtre
+      Start_cut = pmax(CDS_start, bin_start),
+      Stop_cut = pmin(CDS_end, bin_end)
     )
-
-  # Fusion des segments qui se chevauchent
-  # à l'intérieur de chaque fenêtre.
+  
+  # Fusion des régions chevauchantes dans chaque fenêtre
   coverage <- intersections %>%
     group_by(
+      Clade,
       Souche,
-      Accession,
       bin_start,
       bin_end,
       bin_mid,
@@ -591,8 +261,8 @@ calculate_unique_coverage <- function(
     right_join(
       bins,
       by = c(
+        "Clade",
         "Souche",
-        "Accession",
         "bin_start",
         "bin_end",
         "bin_mid",
@@ -600,29 +270,22 @@ calculate_unique_coverage <- function(
       )
     ) %>%
     mutate(
-      # Les fenêtres sans CDS reçoivent une couverture nulle
-      covered_bp = replace_na(
-        covered_bp,
-        0
-      ),
-
+      covered_bp = replace_na(covered_bp, 0),
+      
       # Proportion de positions couvertes par au moins un CDS
-      coverage =
-        covered_bp /
-        bin_length
+      coverage = covered_bp / bin_length
     ) %>%
     arrange(
+      Clade,
       Souche,
-      Accession,
       bin_start
     )
-
+  
   return(coverage)
 }
 
-
 # ============================================================
-# 16. LIGNE A : COUVERTURE PAR LES CDS NON HYPOTHÉTIQUES
+# 8. LIGNE A : COUVERTURE PAR LES CDS NON HYPOTHÉTIQUES
 # ============================================================
 
 annotated_coverage <- calculate_unique_coverage(
@@ -631,13 +294,12 @@ annotated_coverage <- calculate_unique_coverage(
   annotated_only = TRUE
 )
 
-# La ligne A représente désormais :
-# nombre de positions couvertes par au moins un CDS
-# non hypothétique / nombre total de positions de la fenêtre.
-
+# Signification :
+# proportion des positions de chaque fenêtre couvertes
+# par au moins un CDS non hypothétique
 
 # ============================================================
-# 17. LIGNE B : COUVERTURE PAR TOUS LES CDS
+# 9. LIGNE B : COUVERTURE PAR TOUS LES CDS
 # ============================================================
 
 total_coding_coverage <- calculate_unique_coverage(
@@ -646,95 +308,50 @@ total_coding_coverage <- calculate_unique_coverage(
   annotated_only = FALSE
 )
 
-# La ligne B représente désormais :
-# nombre de positions couvertes par au moins un CDS
-# / nombre total de positions de la fenêtre.
-#
-# Les CDS hypothétiques et non hypothétiques sont inclus.
-
+# Signification :
+# proportion des positions de chaque fenêtre couvertes
+# par au moins un CDS, protéines hypothétiques incluses
 
 # ============================================================
-# 18. VÉRIFICATIONS DES COUVERTURES
+# 10. VÉRIFICATIONS DES COUVERTURES
 # ============================================================
 
-# Les valeurs doivent rester comprises entre 0 et 1.
-invalid_annotated_coverage <-
-  annotated_coverage %>%
+# Aucune couverture ne doit être inférieure à 0
+# ou supérieure à 1
+
+annotated_coverage %>%
   filter(
     coverage < 0 |
       coverage > 1
   )
 
-invalid_total_coverage <-
-  total_coding_coverage %>%
+total_coding_coverage %>%
   filter(
     coverage < 0 |
       coverage > 1
   )
 
-cat(
-  "Nombre de valeurs invalides pour la ligne A :",
-  nrow(invalid_annotated_coverage),
-  "\n"
-)
+# La couverture des CDS non hypothétiques ne doit jamais
+# dépasser la couverture totale
 
-cat(
-  "Nombre de valeurs invalides pour la ligne B :",
-  nrow(invalid_total_coverage),
-  "\n"
-)
-
-# Vérification des éventuelles fenêtres dupliquées
-duplicated_annotated_bins <-
-  annotated_coverage %>%
-  count(
-    Souche,
-    Accession,
-    bin_start
-  ) %>%
-  filter(n > 1)
-
-duplicated_total_bins <-
-  total_coding_coverage %>%
-  count(
-    Souche,
-    Accession,
-    bin_start
-  ) %>%
-  filter(n > 1)
-
-cat(
-  "Nombre de fenêtres dupliquées pour la ligne A :",
-  nrow(duplicated_annotated_bins),
-  "\n"
-)
-
-cat(
-  "Nombre de fenêtres dupliquées pour la ligne B :",
-  nrow(duplicated_total_bins),
-  "\n"
-)
-
-# La couverture par les CDS non hypothétiques
-# ne doit jamais dépasser la couverture totale.
-coverage_comparison <- annotated_coverage %>%
+coverage_check <- annotated_coverage %>%
   select(
+    Clade,
     Souche,
-    Accession,
     bin_start,
     annotated_coverage = coverage
   ) %>%
   left_join(
     total_coding_coverage %>%
       select(
+        Clade,
         Souche,
-        Accession,
         bin_start,
         total_coverage = coverage
       ),
     by = c(
+      "Clade",
       "Souche",
-      "Accession",
       "bin_start"
     )
   ) %>%
@@ -743,76 +360,77 @@ coverage_comparison <- annotated_coverage %>%
       total_coverage + 1e-12
   )
 
-cat(
-  paste0(
-    "Nombre de fenêtres dans lesquelles la couverture ",
-    "annotée dépasse la couverture totale : "
-  ),
-  nrow(coverage_comparison),
-  "\n"
-)
+coverage_check
 
+# Cette commande doit normalement renvoyer 0 ligne
+
+# Vérification des éventuels doublons de fenêtres
+
+annotated_coverage %>%
+  count(
+    Clade,
+    Souche,
+    bin_start
+  ) %>%
+  filter(n > 1)
+
+total_coding_coverage %>%
+  count(
+    Clade,
+    Souche,
+    bin_start
+  ) %>%
+  filter(n > 1)
 
 # ============================================================
-# 19. FONCTION DE CRÉATION D'UN PANNEAU
+# 11. FONCTION DE CRÉATION DU PANNEAU D'UNE SOUCHE
 # ============================================================
 
 make_souche_panel <- function(
-    souche_name,
-    accession_name
+    clade_name,
+    souche_name
 ) {
-
+  
   panel_title <- paste0(
     souche_name,
     " | ",
-    accession_name
+    clade_name
   )
-
-  # CDS de la combinaison Souche + Accession
+  
+  # CDS de la souche pour la ligne C
   d_souche <- d %>%
     filter(
-      Souche == souche_name,
-      Accession == accession_name
+      Clade == clade_name,
+      Souche == souche_name
     )
-
-  # Couverture par les CDS non hypothétiques
-  annotated_souche <-
-    annotated_coverage %>%
+  
+  # Couverture des CDS non hypothétiques pour la ligne A
+  annotated_souche <- annotated_coverage %>%
     filter(
-      Souche == souche_name,
-      Accession == accession_name
+      Clade == clade_name,
+      Souche == souche_name
     )
-
-  # Couverture par tous les CDS
-  coverage_souche <-
-    total_coding_coverage %>%
+  
+  # Couverture totale des CDS pour la ligne B
+  coverage_souche <- total_coding_coverage %>%
     filter(
-      Souche == souche_name,
-      Accession == accession_name
+      Clade == clade_name,
+      Souche == souche_name
     )
-
-  # Positions des cif
-  cif_souche <- cif_points %>%
-    filter(
-      Souche == souche_name,
-      Accession == accession_name
-    )
-
+  
   # Informations sur le scaffold
   contig_souche <- contigs %>%
     filter(
-      Souche == souche_name,
-      Accession == accession_name
+      Clade == clade_name,
+      Souche == souche_name
     )
-
-
+  
   # ----------------------------------------------------------
   # LIGNE A
-  #
-  # Proportion de positions de chaque fenêtre de 10 kb
-  # couvertes par au moins un CDS non hypothétique.
+  # Proportion de positions couvertes par au moins un CDS
+  # non hypothétique dans chaque fenêtre de 10 kb
   # ----------------------------------------------------------
-
+  
   p_annotated <- ggplot(
     annotated_souche,
     aes(
@@ -829,24 +447,12 @@ make_souche_panel <- function(
       color = "red"
     ) +
     scale_x_continuous(
-      limits = c(
-        1,
-        max_len
-      ),
-      expand = c(
-        0,
-        0
-      )
+      limits = c(1, max_len),
+      expand = c(0, 0)
     ) +
     scale_y_continuous(
-      limits = c(
-        0,
-        ymax_a
-      ),
-      expand = c(
-        0,
-        0
-      )
+      limits = c(0, ymax_a),
+      expand = c(0, 0)
     ) +
     labs(
       title = panel_title,
@@ -867,16 +473,13 @@ make_souche_panel <- function(
         vjust = 0.5
       )
     )
-
-
+  
   # ----------------------------------------------------------
   # LIGNE B
-  #
-  # Proportion de positions de chaque fenêtre de 10 kb
-  # couvertes par au moins un CDS, quelle que soit
-  # son annotation.
+  # Proportion de positions couvertes par au moins un CDS
+  # dans chaque fenêtre de 10 kb
   # ----------------------------------------------------------
-
+  
   p_coverage <- ggplot(
     coverage_souche,
     aes(
@@ -893,24 +496,12 @@ make_souche_panel <- function(
       color = "grey20"
     ) +
     scale_x_continuous(
-      limits = c(
-        1,
-        max_len
-      ),
-      expand = c(
-        0,
-        0
-      )
+      limits = c(1, max_len),
+      expand = c(0, 0)
     ) +
     scale_y_continuous(
-      limits = c(
-        0,
-        ymax_b
-      ),
-      expand = c(
-        0,
-        0
-      )
+      limits = c(0, ymax_b),
+      expand = c(0, 0)
     ) +
     labs(
       x = NULL,
@@ -927,18 +518,17 @@ make_souche_panel <- function(
         vjust = 0.5
       )
     )
-
-
+  
   # ----------------------------------------------------------
   # LIGNE C
-  #
-  # Distribution exacte des CDS et position des cif
-  # le long du scaffold.
+  # Positions exactes des CDS sur le scaffold
+  # Rouge : CDS non hypothétiques
+  # Gris : CDS hypothétiques
   # ----------------------------------------------------------
-
+  
   p_scaffold <- ggplot() +
-
-    # Trait noir correspondant à la longueur totale du scaffold
+    
+    # Scaffold complet
     geom_segment(
       data = contig_souche,
       aes(
@@ -950,9 +540,8 @@ make_souche_panel <- function(
       linewidth = 1,
       color = "black"
     ) +
-
-    # CDS non hypothétiques en rouge
-    # CDS hypothétiques en gris
+    
+    # CDS
     geom_segment(
       data = d_souche,
       aes(
@@ -964,64 +553,32 @@ make_souche_panel <- function(
       ),
       linewidth = 7
     ) +
-
-    # Triangles indiquant les positions des cif
-    geom_point(
-      data = cif_souche,
-      aes(
-        x = pos,
-        y = 1.25,
-        fill = type_triangle
-      ),
-      shape = 25,
-      size = 4,
-      color = "black",
-      alpha = 1,
-      inherit.aes = FALSE
-    ) +
-
+    
     scale_color_manual(
       values = c(
         "0" = "red",
         "1" = "grey25"
       )
     ) +
-
-    scale_fill_manual(
-      values = c(
-        "CifA + CifB" = "white",
-        "CifB seul" = "grey20",
-        "CifA seul" = "green"
-      )
-    ) +
-
+    
     scale_x_continuous(
-      limits = c(
-        1,
-        max_len
-      ),
-      expand = c(
-        0,
-        0
-      )
+      limits = c(1, max_len),
+      expand = c(0, 0)
     ) +
-
+    
     scale_y_continuous(
-      limits = c(
-        0.7,
-        1.3
-      ),
+      limits = c(0.7, 1.3),
       breaks = 1,
       labels = panel_title
     ) +
-
+    
     labs(
       x = NULL,
       y = "c"
     ) +
-
+    
     theme_minimal() +
-
+    
     theme(
       legend.position = "none",
       axis.text.y = element_blank(),
@@ -1031,57 +588,44 @@ make_souche_panel <- function(
         vjust = 0.5
       )
     )
-
-
-  # Assemblage vertical des trois lignes
+  
+  # Assemblage des trois lignes
   p_annotated /
     p_coverage /
     p_scaffold +
     plot_layout(
-      heights = c(
-        1,
-        1,
-        0.5
-      )
+      heights = c(1, 1, 0.5)
     )
 }
 
-
 # ============================================================
-# 20. LISTE DES COMBINAISONS SOUCHE + ACCESSION
+# 12. LISTE DES SOUCHES
 # ============================================================
 
-souches_accessions <- contigs %>%
+souches <- contigs %>%
   select(
-    Souche,
-    Accession
+    Clade,
+    Souche
   ) %>%
   distinct()
 
-
 # ============================================================
-# 21. CRÉATION DES PANNEAUX
+# 13. CRÉATION DES PANNEAUX
 # ============================================================
 
 plots_by_souche <- lapply(
-  seq_len(
-    nrow(souches_accessions)
-  ),
+  seq_len(nrow(souches)),
   function(i) {
-
+    
     make_souche_panel(
-      souche_name =
-        souches_accessions$Souche[i],
-
-      accession_name =
-        souches_accessions$Accession[i]
+      clade_name = souches$Clade[i],
+      souche_name = souches$Souche[i]
     )
   }
 )
 
-
 # ============================================================
-# 22. ASSEMBLAGE DE LA FIGURE FINALE
+# 14. ASSEMBLAGE FINAL
 # ============================================================
 
 figure_finale <- wrap_plots(
@@ -1091,16 +635,12 @@ figure_finale <- wrap_plots(
 
 figure_finale
 
-
 # ============================================================
-# 23. VALEURS MAXIMALES RÉELLES
+# 15. VALEURS MAXIMALES OBSERVÉES
 # ============================================================
 
 cat(
-  paste0(
-    "Couverture maximale par les CDS non hypothétiques ",
-    "dans le graphique A : "
-  ),
+  "Couverture maximale des CDS non hypothétiques :",
   max(
     annotated_coverage$coverage,
     na.rm = TRUE
@@ -1109,50 +649,10 @@ cat(
 )
 
 cat(
-  paste0(
-    "Couverture maximale par l'ensemble des CDS ",
-    "dans le graphique B : "
-  ),
+  "Couverture maximale de l'ensemble des CDS :",
   max(
     total_coding_coverage$coverage,
     na.rm = TRUE
   ),
   "\n"
 )
-
-
-# ============================================================
-# 24. DIMENSIONS CONSEILLÉES POUR L'EXPORT
-# ============================================================
-
-# Largeur : 14 pouces
-# Hauteur : 2,5 pouces par combinaison Souche + Accession
-
-figure_width <- 14
-
-figure_height <-
-  nrow(souches_accessions) * 2.5
-
-cat(
-  "Largeur conseillée :",
-  figure_width,
-  "pouces\n"
-)
-
-cat(
-  "Hauteur conseillée :",
-  figure_height,
-  "pouces\n"
-)
-
-# Export facultatif
-#
-# ggsave(
-#   filename = "figure_finale_cif_like.png",
-#   plot = figure_finale,
-#   width = figure_width,
-#   height = figure_height,
-#   units = "in",
-#   dpi = 300,
-#   limitsize = FALSE
-# )
