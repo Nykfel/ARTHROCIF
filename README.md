@@ -8,4 +8,6 @@ This repository contains the scripts, intermediate data and methodological detai
 
 This page is still under development. Regular updates are planned to complete the documentation, clarify the organization of the files and improve the reproducibility of the analyses.
 
+Click on the map below to open the interactive PDF.
+
 [MAP.pdf](https://github.com/user-attachments/files/29375621/MAP.pdf)
