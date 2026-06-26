@@ -7,3 +7,7 @@ This repository accompanies my Master 2 internship report, supervised by Julien 
 This repository contains the scripts, intermediate data and methodological details used to generate the main results of the report. It includes files related to homology searches, protein domain annotation, phylogenetic analyses, congruence tests between *cifA* and *cifB*, and the analysis of genomic environments surrounding the insertions.
 
 This page is still under development. Regular updates are planned to complete the documentation, clarify the organization of the files and improve the reproducibility of the analyses.
+
+Click on the map to open the interactive PDF.
+
+[![Interactive project map](assets/project_map.png)](https://Nykfel.github.io/ARTHROCIF/project_map.pdf)
