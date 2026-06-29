@@ -1,18 +1,169 @@
- ,Homalodisca_vitripennis_Tul88_KAG8290569.1,Homalodisca_vitripennis_Tul88_KAG8290545.1,Armadillidium_vulgare_WXf-1543_OJH31527.1,Armadillidium_vulgare_WXf-1543_OJH32952.1,Armadillidium_vulgare_WXf-1543_OJH32251.1,Araneus_ventricosus_Yam34_BGPR01000016.1,Abscondita_terminalis_Ate-2015_JABVZW010003181.1,Timema_californicum_T76_OE198796.1,Pararge_aegeria_aegeria_Psw,Drosophila_ananassae_cHI_NW_025319039.1,Drosophila_ananassae_cHI_NW_025319040.1,Drosophila_ananassae_cHI_NW_025319042.1,Drosophila_ananassae_cHI_NW_025319046.1,Amblyptilia_punctidactyla_ilAmb_OZ389411.1,Gerris_buenoi_Swe94_CAO4854541.1,Gerris_buenoi_Swe94_CDWWKY010000139.1,Nephila_pilipes_Oki30_GFS42335.1
-Homalodisca_vitripennis_Tul88_KAG8290569.1,0%,26%,7%,7%,7%,74%,64%,59%,74%,73%,73%,62%,62%,49%,27%,24%,67%
-Homalodisca_vitripennis_Tul88_KAG8290545.1,26%,0%,25%,25%,25%,75%,62%,58%,74%,73%,73%,61%,61%,51%,17%,7%,69%
-Armadillidium_vulgare_WXf-1543_OJH31527.1,7%,25%,0%,0%,0%,74%,63%,58%,74%,73%,73%,62%,62%,48%,26%,22%,65%
-Armadillidium_vulgare_WXf-1543_OJH32952.1,7%,25%,0%,0%,0%,74%,63%,58%,74%,73%,73%,62%,62%,48%,26%,22%,65%
-Armadillidium_vulgare_WXf-1543_OJH32251.1,7%,25%,0%,0%,0%,74%,63%,58%,74%,73%,73%,62%,62%,48%,26%,22%,65%
-Araneus_ventricosus_Yam34_BGPR01000016.1,74%,75%,74%,74%,74%,0%,79%,79%,61%,70%,70%,79%,79%,73%,74%,75%,68%
-Abscondita_terminalis_Ate-2015_JABVZW010003181.1,64%,62%,63%,63%,63%,79%,0%,71%,82%,81%,81%,76%,76%,67%,64%,62%,81%
-Timema_californicum_T76_OE198796.1,59%,58%,58%,58%,58%,79%,71%,0%,75%,73%,73%,58%,58%,47%,58%,58%,71%
-Pararge_aegeria_aegeria_Psw,74%,74%,74%,74%,74%,61%,82%,75%,0%,22%,22%,61%,61%,71%,72%,73%,82%
-Drosophila_ananassae_cHI_NW_025319039.1,73%,73%,73%,73%,73%,70%,81%,73%,22%,0%,0%,59%,59%,69%,72%,72%,81%
-Drosophila_ananassae_cHI_NW_025319040.1,73%,73%,73%,73%,73%,70%,81%,73%,22%,0%,0%,59%,59%,69%,72%,72%,81%
-Drosophila_ananassae_cHI_NW_025319042.1,62%,61%,62%,62%,62%,79%,76%,58%,61%,59%,59%,0%,0%,57%,60%,62%,74%
-Drosophila_ananassae_cHI_NW_025319046.1,62%,61%,62%,62%,62%,79%,76%,58%,61%,59%,59%,0%,0%,57%,60%,62%,74%
-Amblyptilia_punctidactyla_ilAmb_OZ389411.1,49%,51%,48%,48%,48%,73%,67%,47%,71%,69%,69%,57%,57%,0%,49%,50%,70%
-Gerris_buenoi_Swe94_CAO4854541.1,27%,17%,26%,26%,26%,74%,64%,58%,72%,72%,72%,60%,60%,49%,0%,13%,69%
-Gerris_buenoi_Swe94_CDWWKY010000139.1,24%,7%,22%,22%,22%,75%,62%,58%,73%,72%,72%,62%,62%,50%,13%,0%,68%
-Nephila_pilipes_Oki30_GFS42335.1,67%,69%,65%,65%,65%,68%,81%,71%,82%,81%,81%,74%,74%,70%,69%,68%,0%
+rm(list = ls())
+
+library(vegan)
+library(ggplot2)
+library(ape)
+
+############################
+# TEST 1 : distances Hamming
+############################
+
+CifA_matrix <- read.table(
+  "C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/CifA_matrix.txt",
+  header = TRUE,
+  row.names = 1,
+  sep = ",",
+  check.names = FALSE
+)
+
+CifB_matrix <- read.table(
+  "C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/CifB_matrix.txt",
+  header = TRUE,
+  row.names = 1,
+  sep = ",",
+  check.names = FALSE
+)
+
+CifA_matrix[] <- lapply(CifA_matrix, function(x) as.numeric(gsub("%", "", x)))
+CifB_matrix[] <- lapply(CifB_matrix, function(x) as.numeric(gsub("%", "", x)))
+
+cifA_hamming_dist <- as.dist(CifA_matrix)
+cifB_hamming_dist <- as.dist(CifB_matrix)
+
+common_taxa_hamming <- intersect(labels(cifA_hamming_dist), labels(cifB_hamming_dist))
+
+cifA_hamming_dist <- as.dist(as.matrix(cifA_hamming_dist)[common_taxa_hamming, common_taxa_hamming])
+cifB_hamming_dist <- as.dist(as.matrix(cifB_hamming_dist)[common_taxa_hamming, common_taxa_hamming])
+
+mantel_hamming <- mantel(
+  cifA_hamming_dist,
+  cifB_hamming_dist,
+  method = "spearman",
+  permutations = 9999
+)
+
+mantel_hamming
+
+mantel_hamming_df <- data.frame(
+  cifA = as.vector(cifA_hamming_dist),
+  cifB = as.vector(cifB_hamming_dist)
+)
+
+p_mantel_hamming <- ggplot(mantel_hamming_df, aes(x = cifA, y = cifB)) +
+  geom_point(size = 5, alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "grey70") +
+  labs(
+    x = "Distance entre séquences de cifA",
+    y = "Distance entre séquences de cifB"
+  ) +
+  theme_classic(base_size = 12)
+
+p_mantel_hamming
+
+
+##########################################
+# TEST 2 : distances phylogénétiques arbres
+##########################################
+
+cifA_tree <- read.tree("C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/cifA.raxml.nwk")
+cifB_tree <- read.tree("C:/Users/Mael RICHON/Desktop/Rapport_stage/Mantel/cifB.raxml.nwk")
+
+# Correction du nom différent
+cifA_tree$tip.label[cifA_tree$tip.label == "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522"] <-
+  "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522.1"
+
+cifB_tree$tip.label[cifB_tree$tip.label == "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522"] <-
+  "Pararge_aegeria_aegeria_Psw_CAKXAJ010007522.1"
+
+setdiff(cifA_tree$tip.label, cifB_tree$tip.label)
+setdiff(cifB_tree$tip.label, cifA_tree$tip.label)
+
+cifA_tree_dist <- cophenetic.phylo(cifA_tree)
+cifB_tree_dist <- cophenetic.phylo(cifB_tree)
+
+cifA_tree_dist <- as.dist(cifA_tree_dist)
+cifB_tree_dist <- as.dist(cifB_tree_dist)
+
+common_taxa_tree <- intersect(labels(cifA_tree_dist), labels(cifB_tree_dist))
+
+cifA_tree_dist <- as.dist(as.matrix(cifA_tree_dist)[common_taxa_tree, common_taxa_tree])
+cifB_tree_dist <- as.dist(as.matrix(cifB_tree_dist)[common_taxa_tree, common_taxa_tree])
+
+mantel_tree <- mantel(
+  cifA_tree_dist,
+  cifB_tree_dist,
+  method = "spearman",
+  permutations = 9999
+)
+
+mantel_tree
+
+mantel_tree_df <- data.frame(
+  cifA = as.vector(cifA_tree_dist),
+  cifB = as.vector(cifB_tree_dist)
+)
+
+p_mantel_tree <- ggplot(mantel_tree_df, aes(x = cifA, y = cifB)) +
+  geom_point(size = 5, alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "black", fill = "grey70") +
+  labs(
+    x = "Distance phylogénétique de cifA basée sur les longueurs de branches",
+    y = "Distance phylogénétique de cifB basée sur les longueurs de branches"
+  ) +
+  theme_classic(base_size = 12)
+
+p_mantel_tree
+
+(p_mantel_hamming + p_mantel_tree)
+
+
+#############
+library(reshape2)
+library(patchwork)
+ord <- hclust(cifA_hamming_dist)$order
+
+mat_cifA <- mat_cifA[ord, ord]
+mat_cifB <- mat_cifB[ord, ord]
+# Matrices Hamming
+mat_cifA <- as.matrix(cifA_hamming_dist)
+mat_cifB <- as.matrix(cifB_hamming_dist)
+
+# Format long
+df_cifA <- melt(mat_cifA)
+df_cifB <- melt(mat_cifB)
+
+colnames(df_cifA) <- c("Seq1", "Seq2", "Distance")
+colnames(df_cifB) <- c("Seq1", "Seq2", "Distance")
+
+# Heatmap CifA
+p_heat_cifA <- ggplot(df_cifA, aes(x = Seq1, y = Seq2, fill = Distance)) +
+  geom_tile() +
+  labs(
+    title = "Distances entre séquences de cifA",
+    x = NULL,
+    y = NULL,
+    fill = "Distance"
+  ) +
+  theme_classic(base_size = 10) +
+  theme(
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
+    axis.text.y = element_text(size = 6)
+  )
+
+# Heatmap CifB
+p_heat_cifB <- ggplot(df_cifB, aes(x = Seq1, y = Seq2, fill = Distance)) +
+  geom_tile() +
+  labs(
+    title = "Distances entre séquences de cifB",
+    x = NULL,
+    y = NULL,
+    fill = "Distance"
+  ) +
+  theme_classic(base_size = 10) +
+  theme(
+  axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
+  axis.text.y = element_blank()
+)
+
+p_heat_cifA + p_heat_cifB
+
