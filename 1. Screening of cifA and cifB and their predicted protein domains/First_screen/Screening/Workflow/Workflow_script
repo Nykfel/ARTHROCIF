@@ -13,7 +13,7 @@ df_cifA <- tibble(
   etape = c("1", "2", "3c", "4"),
   Genome_tblastx = c(14, 2, 2, 2),
   Genome_tblastn = c(8, 2, 0, 0),
-  Blast_tblastx  = c(267, 58, 19, 18),
+  Blast_tblastx  = c(267, 58, 19, 17),
   Blast_tblastn  = c(295, 61, 18, 15),
   Blast_blastp   = c(704, 67, 67, 67)
 )
