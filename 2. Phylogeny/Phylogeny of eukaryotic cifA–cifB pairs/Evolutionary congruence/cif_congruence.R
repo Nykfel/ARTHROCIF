@@ -122,12 +122,13 @@ library(reshape2)
 library(patchwork)
 ord <- hclust(cifA_hamming_dist)$order
 
-mat_cifA <- mat_cifA[ord, ord]
-mat_cifB <- mat_cifB[ord, ord]
 # Matrices Hamming
 mat_cifA <- as.matrix(cifA_hamming_dist)
 mat_cifB <- as.matrix(cifB_hamming_dist)
 
+
+mat_cifA <- mat_cifA[ord, ord]
+mat_cifB <- mat_cifB[ord, ord]
 # Format long
 df_cifA <- melt(mat_cifA)
 df_cifB <- melt(mat_cifB)
@@ -161,9 +162,9 @@ p_heat_cifB <- ggplot(df_cifB, aes(x = Seq1, y = Seq2, fill = Distance)) +
   ) +
   theme_classic(base_size = 10) +
   theme(
-  axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
-  axis.text.y = element_blank()
-)
+    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5, size = 6),
+    axis.text.y = element_blank()
+  )
 
 p_heat_cifA + p_heat_cifB
 
