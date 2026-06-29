@@ -1,3 +1,6 @@
+### *cif* retained
+
+```fasta 
 >RNA binding like KAF5277223.1 Abscondita terminalis
 LEFFRNKLQSIDSLSPKRKVAYNKGHFSADDVGMVDFCLRYLREDNTLTGSYSFESAKRLFENLKSEDLSPEDYSTSMFG
 ALDSLVSVPDDSFIKPGSDMLTSMWNRCGFETHKQHFLDKLGIGYASRNRIACLIKKNVDIKVLPEIIKSLNQEQMQFIM
@@ -728,3 +731,8 @@ AIPTEKEKNIFHHEGKDTCKDLVYSNDWGLSLFFINECIASQERMIKLKEFREHITWCCSKVELPRNKDKLDKFF-----
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
+```
+
+### *cif* discarded
+```fasta
+```
