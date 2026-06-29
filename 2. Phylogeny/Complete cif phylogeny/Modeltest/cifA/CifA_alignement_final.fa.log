@@ -1,0 +1,242 @@
+Physical cores: 56
+Logical cores:  112
+Memory:         502GB
+Extensions:     AVX
+
+WARNING: Partition DATA: Sequences Bombus_terrestris_RNA_binding_like_XP_048260549_1 and Bombus_terrestris_XP_048260546_1_RNA_binding_like are identical
+WARNING: Partition DATA: Sequences Argiope_bruennichi_RNA_binding_like_KAF8789789_1 and Argiope_bruennichi_RNA_binding_like_XP_055925994_1 are identical
+WARNING: Partition DATA: Sequences Planococcus_citri_RNA_binding_like_XP_065218349_1 and Planococcus_citri_RNA_binding_like_XM_065362278_1_XP_065218350_1 are identical
+WARNING: Partition DATA: Sequences Bombus_affinis_RNA_binding_like_XP_050584319_1 and Bombus_affinis_RNA_binding_like_XP_050584318_1 are identical
+WARNING: Partition DATA: Sequences Bombus_flavifrons_RNA_binding_like_XP_068974544_1 and Bombus_flavifrons_RNA_binding_like_XP_068974543_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_huntii_RNA_binding_like_XP_050482923_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_vancouverensis_nearcticus_RNA_binding_like_XP_076476257_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_vancouverensis_nearcticus_RNA_binding_like_XP_076476256_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_vosnesenskii_RNA_binding_like_XP_033353136_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_huntii_RNA_binding_like_XM_050626964_1_XP_050482921_1 are identical
+WARNING: Partition DATA: Sequences Bombus_huntii_RNA_binding_like_XP_050482922_1 and Bombus_huntii_RNA_binding_like_XM_050626965_1_XP_050482922_1 are identical
+WARNING: Partition DATA: Sequences Chelonus_insularis_RNA_binding_like_XP_034946356_1 and Chelonus_insularis_RNA_binding_like_XM_035090466_1_XP_034946357_1 are identical
+WARNING: Partition DATA: Sequences Halyomorpha_halys_RNA_binding_like_XP_014291006_1 and Halyomorpha_halys_RNA_binding_like_XM_014435521_2_XP_014291007_1 are identical
+WARNING: Partition DATA: Sequences Lasioglossum_baleicum_RNA_binding_like_XP_076291193_1 and Lasioglossum_baleicum_RNA_binding_like_XP_076291194_1 are identical
+WARNING: Partition DATA: Sequences Lasioglossum_baleicum_RNA_binding_like_XP_076291193_1 and Lasioglossum_baleicum_RNA_binding_like_XM_076435080_1_XP_076291195_1 are identical
+WARNING: Partition DATA: Sequences Parasteatoda_tepidariorum_RNA_binding_like_XP_015916410_1 and Parasteatoda_tepidariorum_RNA_binding_like_XM_043042738_2_XP_042898672_1 are identical
+WARNING: Partition DATA: Sequences Argiope_bruennichi_RNA_binding_like_XM_056073598_1_XP_055929573_1 and Argiope_bruennichi_RNA_binding_like_XM_056073599_1_XP_055929574_1 are identical
+WARNING: Partition DATA: Sequences Argiope_bruennichi_RNA_binding_like_XM_056085793_1_XP_055941768_1 and Argiope_bruennichi_RNA_binding_like_XM_056085801_1_XP_055941776_1 are identical
+WARNING: Partition DATA: Sequences Drosophila_ananassae_RNA_binding_like_ASM1763931v2_2 and RNA_binding_like_wRi_00742 are identical
+WARNING: Partition DATA: Sequences Drosophila_ananassae_RNA_binding_like_ASM1763931v2_2 and RNA_binding_like_wScp_00716 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_wRi_00592 and RNA_binding_like_wRi_01118 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_wRi_00592 and RNA_binding_like_wScp_00152 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RambAn13_00007 and RNA_binding_like_RambGAT_01152 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RambAn13_00007 and RNA_binding_like_Ramb_AcajP2_01245_1244 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RambAn13_00007 and RNA_binding_like_RambAcPa_01375 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RambAn13_00007 and RNA_binding_like_RambAc37_01159 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RambAn13_00007 and RNA_binding_like_RambMeda_01245_01244 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_Rlusi_Oerra_bin22_00944 and RNA_binding_like_RhooRCCE_02142 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_Rlusi_Oerra_bin22_00944 and RNA_binding_like_RhooRCCE_02543_2542M are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RhooRCCE_01271 and RNA_binding_like_RhooRCCE_01382_1383M are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_RhooCS_00747 and RNA_binding_like_RheiTIGMIC_01168 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_wAcro5_00012 and RNA_binding_like_wAdent_01085 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_SpiroCDF100_00003 and RNA_binding_like_SpiroDCM94_00003 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_REDioLin_01113 and RNA_binding_like_REDioRuf02_00994 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_REPolTer_01684 and RNA_binding_like_REPolTer_01730 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_MesenetGL2_00342 and RNA_binding_like_MesenetL5_00646 are identical
+WARNING: Partition DATA: Sequences RNA_binding_like_MesenetGL2_00290 and RNA_binding_like_MesenetL5_00421 are identical
+WARNING: Empirical invariant sites proportion for partition DATA is 0
+         You should consider excluding +I and +I+G models from the analysis
+
+Creating new checkpoint file: CifA_alignement_final.fa.ckp
+--------------------------------------------------------------------------------
+ModelTest-NG v0.1.7
+
+Input data:
+  MSA:        CifA_alignement_final.fa
+  Tree:       Maximum parsimony
+    file:           -
+  #taxa:            172
+  #sites:           103
+  #patterns:        103
+  Max. thread mem:  43 MB
+
+Output:
+  Log:           CifA_alignement_final.fa.log
+  Starting tree: CifA_alignement_final.fa.tree
+  Results:       CifA_alignement_final.fa.out
+
+Selection options:
+  # protein matrices: 19
+  # protein models:   57
+  include model parameters:
+    Uniform:         false
+    p-inv (+I):      true
+    gamma (+G):      true
+    both (+I+G):     true
+    free rates (+R): false
+    fixed freqs:     true
+    estimated freqs: false
+    #categories:     4
+  gamma rates mode:   mean
+  asc bias:           none
+  epsilon (opt):      0.01
+  epsilon (par):      0.05
+  keep branches:      false
+
+Additional options:
+  verbosity:        very low
+  threads:          12/56
+  RNG seed:         12345
+  subtree repeats:  enabled
+--------------------------------------------------------------------------------
+modeltest-ng was called as follows: 
+>> modeltest-ng -i CifA_alignement_final.fa -p 12 -T raxml -d aa 
+
+
+Partition 1/1
+
+ ----ID---  ----MODEL---- ---Time--- -Elapsed--- -------LnL------- -Alpha- -P-inv-
+
+Computation of likelihood scores completed. It took 0h:00:04
+
+BIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1    -15938.4542     33461.9858         0.0000    0.9058
+       2  JTT+I+G4           2    -15938.4483     33466.6087         4.6229    0.0898
+       3  JTT-DCMUT+G4       1    -15943.8720     33472.8213        10.8355    0.0040
+       4  JTT-DCMUT+I+G4     2    -15943.8862     33477.4845        15.4987    0.0004
+       5  HIVB+G4            1    -15957.7073     33500.4918        38.5060    0.0000
+       6  HIVB+I+G4          2    -15957.7063     33505.1246        43.1388    0.0000
+       7  CPREV+G4           1    -16009.5386     33604.1545       142.1687    0.0000
+       8  CPREV+I+G4         2    -16009.5177     33608.7475       146.7617    0.0000
+       9  VT+G4              1    -16066.0303     33717.1379       255.1521    0.0000
+      10  VT+I+G4            2    -16066.0278     33721.7676       259.7818    0.0000
+--------------------------------------------------------------------------------
+Best model according to BIC
+---------------------------
+Model:              JTT+G4
+lnL:                -15938.4542
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        4.5521
+Score:              33461.9858
+Weight:             0.9058
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.9098
+Gamma-Inv:          0.0902
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              4.5525
+Alpha-P.Inv:        4.5845
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_alignement_final.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_alignement_final.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_alignement_final.fa --model JTT+G4
+  > paup -s CifA_alignement_final.fa
+  > iqtree -s CifA_alignement_final.fa -m JTT+G4
+
+AIC       model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1    -15938.4542     32560.9085         0.0000    0.7267
+       2  JTT+I+G4           2    -15938.4483     32562.8967         1.9882    0.2689
+       3  JTT-DCMUT+G4       1    -15943.8720     32571.7440        10.8355    0.0032
+       4  JTT-DCMUT+I+G4     2    -15943.8862     32573.7725        12.8640    0.0012
+       5  HIVB+G4            1    -15957.7073     32599.4145        38.5060    0.0000
+       6  HIVB+I+G4          2    -15957.7063     32601.4126        40.5041    0.0000
+       7  CPREV+G4           1    -16009.5386     32703.0771       142.1687    0.0000
+       8  CPREV+I+G4         2    -16009.5177     32705.0355       144.1270    0.0000
+       9  VT+G4              1    -16066.0303     32816.0606       255.1521    0.0000
+      10  VT+I+G4            2    -16066.0278     32818.0556       257.1471    0.0000
+--------------------------------------------------------------------------------
+Best model according to AIC
+---------------------------
+Model:              JTT+G4
+lnL:                -15938.4542
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        4.5521
+Score:              32560.9085
+Weight:             0.7267
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              0.7299
+Gamma-Inv:          0.2701
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              4.5525
+Alpha-P.Inv:        4.5845
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_alignement_final.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_alignement_final.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_alignement_final.fa --model JTT+G4
+  > paup -s CifA_alignement_final.fa
+  > iqtree -s CifA_alignement_final.fa -m JTT+G4
+
+AICc      model              K            lnL          score          delta    weight
+--------------------------------------------------------------------------------
+       1  JTT+G4             1    -15938.4542    267172.9085         0.0000    0.9956
+       2  JTT-DCMUT+G4       1    -15943.8720    267183.7440        10.8355    0.0044
+       3  HIVB+G4            1    -15957.7073    267211.4145        38.5060    0.0000
+       4  CPREV+G4           1    -16009.5386    267315.0771       142.1687    0.0000
+       5  VT+G4              1    -16066.0303    267428.0606       255.1521    0.0000
+       6  LG+G4              1    -16082.0219    267460.0438       287.1353    0.0000
+       7  FLU+G4             1    -16085.1802    267466.3604       293.4519    0.0000
+       8  JTT+I              1    -16089.0615    267474.1229       301.2144    0.0000
+       9  JTT-DCMUT+I        1    -16092.8578    267481.7155       308.8070    0.0000
+      10  WAG+G4             1    -16098.8636    267493.7272       320.8187    0.0000
+--------------------------------------------------------------------------------
+Best model according to AICc
+---------------------------
+Model:              JTT+G4
+lnL:                -15938.4542
+Frequencies:        0.0767 0.0517 0.0426 0.0515 0.0198 0.0408 0.0618 0.0732 0.0229 0.0538 0.0919 0.0587 0.0238 0.0401 0.0509 0.0688 0.0586 0.0143 0.0321 0.0660
+Inv. sites prop:    -
+Gamma shape:        4.5521
+Score:              267172.9085
+Weight:             0.9956
+---------------------------
+Parameter importances
+---------------------------
+P.Inv:              0.0000
+Gamma:              1.0000
+Gamma-Inv:          0.0000
+Frequencies:        -
+---------------------------
+Model averaged estimates
+---------------------------
+P.Inv:              0.0000
+Alpha:              4.5525
+Alpha-P.Inv:        4.5845
+P.Inv-Alpha:        0.0000
+Frequencies:        -
+
+Commands:
+  > phyml  -i CifA_alignement_final.fa -d aa -m JTT -f m -v 0 -a e -c 4 -o tlr
+  > raxmlHPC-SSE3 -s CifA_alignement_final.fa -m PROTGAMMAJTT -n EXEC_NAME -p PARSIMONY_SEED
+  > raxml-ng --msa CifA_alignement_final.fa --model JTT+G4
+  > paup -s CifA_alignement_final.fa
+  > iqtree -s CifA_alignement_final.fa -m JTT+G4
+Summary:
+
+Partition 1/1:
+                         Model         Score        Weight
+----------------------------------------------------------
+       BIC              JTT+G4    33461.9858        0.9058
+       AIC              JTT+G4    32560.9085        0.7267
+      AICc              JTT+G4   267172.9085        0.9956
+
+Execution results written to CifA_alignement_final.fa.out
+Starting tree written to CifA_alignement_final.fa.tree
