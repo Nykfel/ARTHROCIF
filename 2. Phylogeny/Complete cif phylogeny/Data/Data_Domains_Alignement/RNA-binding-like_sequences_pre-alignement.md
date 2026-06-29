@@ -1,13 +1,6 @@
 ### *cif* retained
 
 ```fasta 
->RNA binding like KAF5277223.1 Abscondita terminalis
-LEFFRNKLQSIDSLSPKRKVAYNKGHFSADDVGMVDFCLRYLREDNTLTGSYSFESAKRLFENLKSEDLSPEDYSTSMFG
-ALDSLVSVPDDSFIKPGSDMLTSMWNRCGFETHKQHFLDKLGIGYASRNRIACLIKKNVDIKVLPEIIKSLNQEQMQFIM
-EEDKSIHEIFTKIIKSGVVG------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like OZ392248.1 Aegaeobuthus cyprius
 TEYFLKKLTPKERKESLVRYAGYVADRRCDSISNRTDLPKEHYTDVLCFLLSQMNEGQQREVFESYSVEVLQCFLDWPWQ
 SFFMGTVNLMRDFLLEEDCDYLLELIVDKVIDGYKDCNYQKLFGKFWEQSPIIHKEYVIDECASGSLLSKLFKIKDKRNI
@@ -92,25 +85,11 @@ IDRESRCFRSNDAVKPLFTSRYKLRPVFLIQKLIFLNTFTNDDELNLKLILEEATLHDKNNILHFQANDICFELISFGDF
 RLADMFLECLTLNGETLKTFKLSLALSIF---------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_033216310.1 Belonocnema kinseyi
-VQYFWNRLDDEFGKRILNYVRYLYRKQFLPEYTDTIIFLVTKMLMRESFEFSMEESFGLSVLLSNHPWDEFFLPLLDKIC
-ELYPPLVYYGDEYRFDFLRLFDRIVELMHHEFELNGTVENSVYQNFFLETWKRIPDWAKFLDDDSWNVKFNEILSKLLLI
-EDTESLKFIINGEEFHGER-------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like XP_033216313.1 Belonocnema kinseyi
 VKYFWNKLSDEQRQRNVEFALHTAKGKSEEPEYAEILIFLLTKLSVEQNISLSYEEFFILEMLLKNWPWEEFFTPVFDRI
 LEFYENSTNRDVDNYETKFFYLIQAIVGLMKNDFALYECVEGTRYQNILHETWEKIPESSKILVAGKRDWSIFSKLLNIE
 DLKSLKMIINHEVFRKTITKRNSFISCMKSLFLTLESKNKIELIEKF---------------------------------
 --------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
->RNA binding like CAH0773663.1 Bemisia tabaci
-TKYFWAKLDDEQRERNLLKCAILSIEKSNEVLSGNLFSYKNHVHVDILVFLLWRMSRVQRLELYSRHKNTVLKMLLYTWP
-WQGLFLCALEEMWPLFSEQDYQSLMHSVMSRLTQDAEQGYPLPHNKFHRIFQAVWRATPPHLKQSVDRNCWQVLSVLFKV
-EDISSISMIVNDPDLRERRHDLIAEGKSYFTNLIKEEKFELLEQCMEELHFSEEEQNSLKSQIHINIDYMRFIKQEEYER
-VDKYL---------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
 >RNA binding like XP_018914842.2 Bemisia tabaci
@@ -253,27 +232,6 @@ CDDNKASSLVKENEMLEILQFAKKFCSDGNFMGLK---------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_023225606.1 Centruroides sculpturatus
-TEYLLQRLTPEERKKSLVRTAGYIAERHCSSASICTDLPKDYADVLCFLLSQMDEAQQTEVFESYPYKVLKCFLGWPLQS
-LFMETSNRMLNFLSKEDCHYFLREMADKVIEGHKDYDYQKLFGEFWRQSPTAHKRYVIDKCASGSLLSKLFKIKDKKNIS
-LVLKDATLAEKRKSFFTMK-------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
->RNA binding like XP_067130146.1 Centruroides vittatus
-TEYFLQKLTPREREESLVRYAGYVAHRRNSARKRSDFPKEFYADVLCFLLSQMDEEQQTEVFESYPYKVLKCFLDWPWQS
-LFMEIASRMWDFLPEDDYDCLLRAIIYKVIDGYKDCNYQNLFGEFWQQSPNAHKRYVIDECDSGSLLSKLFKIKDKKNLS
-LVLKYAATLVEKQE------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
->RNA binding like XP_067139090.1 Centruroides vittatus
-VLVKTAGYVANRRCDSARNRTDFPKEHYADVLCFLLSQMDEEQQTEVFKSYPYKVLKCFLDWPWQSLFMETANHMWDFLS
-EGKYDLLLRIIVDKVINGYKDCNYQNRFGEFWQQNLFKVEDKENVRLILKNATVKEKEEIIFYYKGQNICERLIYNNEWG
-SLKFFVQECISSKDIKVKFKEEFKERIIRRRSEETLEKEKDMWSKFFQLIDDLIQKIFKKRNIEKGNSSPNKRLCSIEFK
-EVAHNMKKICEKMPKSSDPGRLV---------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like XP_034946357.1 Chelonus insularis
 VKYFWKKLTVEQRNNSVINCARTAVLNYGIYENSEEHVASYKKEKYIEIYIFLINQMTNDQRLLFYNRLLFDNEEDPLSF
 KDYCMGATVLRMFFFVWPWQELLIPVLNNVLQYSQHKSHTVYYLLEEITDKIIENHQLGYVTENSKYQSILHEVWCSIPK
@@ -318,13 +276,6 @@ VGVINHILKDEELRGRRKEFLNRIAEIHGRGSTDVDFLEEFMALVISSKEEREWFRGQIELVAKAQN-------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_015112103.1 Diachasma alloeum
-VKYFWGLLNEQERVRTITKICENIVSDDPNAQGYKDLFFRERRIKGDLLVFFLQQLSRYGFDDVRAKILGSAFVLLQLLE
-WPYDNSFMKTLRESWIHHDSIDYGPIVERIFLNVCNCKEYQFVEHDVKYHRIFCRLWEINPQNLKSSIDYKESLSNLWES
-GNVALLNLMLRDRELKDRRGEFL---------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like XP_015121593.1 Diachasma alloeum
 VKYFYHQLSDDEKSRNLVETTEILLSDKILRSVESTEEDYTRRYIDILVFLMQKMTTTQRNELLRRHKDDILKMLLTNWP
 WQALFIPTLEQTWEFFSTRDFKALIKAIVEAILDEYELRGIKDTTTQCILFETWDKAPLALKKGVVKDCWLFFDKCLRIM
@@ -339,14 +290,6 @@ QDITFTKYVINDPDLKEYRQELLDDGRDFYYYLIIEDKYHVVEKFMNEVLYTDEERKIFKSKIDSFHICEYFILKCQYCS
 ADKY----------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_063993302.1 Diachasmimorpha longicaudata
-
-KYFWNIMTKVERMGNALRGCEIILKRRCIFPFCEATFCKKCSDIFCFLLCQITPEENQQLITHELNKGYDPFGTWMLLLN
-WPWEDLFLMMVDRMWPVLSIFDCKFFINKFETTVFTVASHYSLRETSIYHKDVLYKVCLDSPRNLRPH------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like ASM1763931v2_2 NW_025319047.1
 Drosophila ananassae
 VEYFYSLLNEKERERKITDAVTILSSVQCDHNGAVTLDFCLSKMSDQAKNKLFKDSELSKKDKGVYSLFSALIHQGFFDT
@@ -355,16 +298,7 @@ ALAGLIVDWQLGCTKKEEVLKVLQFAKEFCAVESFMYFK-----------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_011304001.1 Fopius arisanus
-
-VRYFWNMMSCEERTKKAITGCEIILERRCTYPYCYATYCKKCSDIFCFLLLQMTHEERLQLIANEFDKTYDPFNTWILLL
-NWPWEDLFVQTLERAWGCFSIFDCKFFINKFETTVYTVDENYKLPQTSVYHKEILYKVCMSSPRNLRPH-----------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like CAO4852417.1 Gerris buenoi
-
 VEFFWNKIKSLPESEMSEQKKDEVFMKTAVYAAGRRCNSYPEIFEFCFSQITPDKYPELLKRDLAENSYYGSLNTLQSAL
 RFDQFQRLFDCLGPSNISEDYYCVWLEYIRKIESYSEFCVDEGIRLFMHMWTKEGFDSHRALLLNEEMRSSPVFQGRLLV
 PLINRGCVEPAWAVLNKANPNQIKEFMSSRHANHICSILKERGDEDSLNKFL----------------------------
@@ -372,7 +306,6 @@ PLINRGCVEPAWAVLNKANPNQIKEFMSSRHANHICSILKERGDEDSLNKFL----------------------------
 --------------------------------------------------------------------------------
 ----------------
 >RNA binding like CAO4855414.1 Gerris buenoi
-
 VEFFWNKIKSLPESEMSEQKKDEIFMKTSVYAAGSRCNSYPEIFEFCFSQISPDKYPELLKRDLAENRYYGSLNTLQSAL
 RFDQFQKLFDCLKPSDVSEDYYCVWLKYIRKIESYSEFCVDEGIRLFMHMWTKEGFDSHRALLLNEEMKNSPVLQGRLLV
 PLINRGCVEPAWAVLNKANPNQIKEFMSSRHANYICSILKERGDEDSLNKFLSYGKSTTEECTSLTEVK-----------
@@ -445,15 +378,7 @@ IKENKAVKILSEIVNSLSQEQMYSIMEEDKSEYELFMRVRNTQLHRGAGDSQLPTSSL----------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like GFS42333.1 Nephila pilipes
-NEEQQVKVFKNYPYKVLKCFLDWPWQSFFMETAKRIWAFLPEEDYDLLLRIIVNKAIDGYKDCNYQKLFGEFWQQSPITH
-KEYVIDECASGSLVSKLLQIKDKENIKLILENATTPEREKVIFSDKGKSTCESLTYNDKRDLLKFFVQECISSKDIMIKF
-KEEFKKRIIRRCSEETLEREKDMWSKFF----------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like GFS89608.1 Nephila_pilipes
-
 KIHWEVLEKHTRQKIIIKMALKCLKGRQRIHLESQGYMDWRGSLILKQYPRSFFVESFAGYNLPSYYNELMCFFLSQIDE
 EQQLTFFKKAFLIRRSDFVLECYLEWPHQDYFIPTINRLWGILPKERFRKCLLNLARKYAGSYKREDFAYRDREIRYYDY
 RSLLQTLWKETPEEYKRYVFVGENLNSLFYPIRHSGKGLLSLLLKKSPFEGEDEVLFKQMFRYLPQDDRRTMMRSSTGKD
@@ -514,13 +439,6 @@ TPAQRKDVMESKHGVKKCTHFISTNQKRSFDEFSCLAFTQEYELNAFKKSLMRTQSSQIFSVIRKERGWRGVIDFL----
 LKFLWNKTNGEERANVLIKLMRRSGADFQCYLLSQINGDDQQLVFKNCGGTILNNIFEDFIWGSYLLTTAYHARNVIPSR
 QYYEFMKRITFCMQFDKNQCRNEIIFRQLWRYATKRIKDYIFRNENAHIFYWFRNEINAEYMLTLFSDASVGFKQNFILS
 NSCLNACMELIKNNNVNVLETIIRKTYSEDTEKLNFKQILLNDERCKAAICSLVSAGDRTKFDSTIRWF-----------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
->RNA binding like OZ392386.1 Platydracus_latebricola
-DDSFVKSGSDMLTSMWNRPGFEAHRHHYLNKLSAQYSSTRDLVASLIEKDKAVKVLSEIINSLSQEQMQYIMEKDRSRYE
-VFTRVRNKQLDG--------------------------------------------------------------------
---------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
@@ -676,31 +594,13 @@ EKEKLVTCDSNLTCEALIRKRDWEMLECFFRECLDCKDVKALATFKEMFKKKHPRPTA----------------------
 --------------------------------------------------------------------------------
 ----------------
 >RNA binding like OZ409325.1 Typhloiulus_lobifer
-
 YFVDKAPPGRVRQLTLRYFAFCDYEFSEFSPSAYHLLNSKLGEMQQSIVSSRFSLLVLVAHLKRPYQQAFLETARPIVNQ
 LTMYDFRRVLENIAKKMAFSYKDYDYRELFVKFWELRDIQRLEFSNPRCMFYNDVFNLFMARDKWLVGLVLGKLCPEEKR
 ALLLSFRADAISAKLACKKDFQLLQLFVRECALKRKDVLEKFLMRTEKLELKSLGLTWLKEL------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like XP_054722951.1 Uloborus_diversus
-
-EQQLAFFNEAFEMKIRCTRFLLHWPHQDYFLPMINQLWGIIPKDENDRCLTDLVQKYSGSDGKESCDYEYRSLLGALWEV
-TPNEYKNYVLCRKTKHLTLLSQLLRSPFLEKDQVLFKQIFRDQPQEKRREMMLTDNEGEFMCSRLIREEKWTFLNWLLKE
-CLSQEEIVGFRKRFIPSFSGSWLC--------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
->RNA binding like OZ405825.1 Villa_occulta
-
-VEFFWNKIKSLPESEMSVQQKDEILMKIAVYVAGSRCNSYPEIFEFCFSQINPDKYPELLKRDLAENGYYGSLNTLQGAL
-RFDQFQRLFDCLRPNDVPEDDYNIWLDMEIKKHSEPYVSASVKLFMHMWMKEGFDNHRALVIREELEDKSPLF-------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-----------------
 >RNA binding like OZ405826.1 Villa_occulta
-
 VKYFWHKLTEEEINNNIVKWTEDVIQKRKDNREYSNFSYQKTNEHTNILCFLLSKMNDKEQQREVFQKYSNEILESLFSD
 WPWQKFLLPTIQVMWNFLDKNVYINILSKIVKEIKRGRTTEKLLKDLWCDSPINLKKCFIQYIISNHLYGTTVLWKLFEI
 EDVEAIKLILNAANVEEKKQIIFATTNKTNLEELIYAGKLNLLDKLIEETLSLEFDINNFKEKVVLKHGNTLCEKWIYKD
@@ -715,8 +615,103 @@ IEDVEAIKLILKAANVKEKKQIIFATIGKNNLEELIYAGKLNLIDKLIEETLSLEFDINNFKKKVVLNYGNILCINCIHK
 DNWQAVETFF----------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
->RNA binding like OE000667.1 Timema_tahoe
+```
 
+### *cif* discarded
+
+```fasta
+>RNA binding like KAF5277223.1 Abscondita terminalis
+LEFFRNKLQSIDSLSPKRKVAYNKGHFSADDVGMVDFCLRYLREDNTLTGSYSFESAKRLFENLKSEDLSPEDYSTSMFG
+ALDSLVSVPDDSFIKPGSDMLTSMWNRCGFETHKQHFLDKLGIGYASRNRIACLIKKNVDIKVLPEIIKSLNQEQMQFIM
+EEDKSIHEIFTKIIKSGVVG------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_033216310.1 Belonocnema kinseyi
+VQYFWNRLDDEFGKRILNYVRYLYRKQFLPEYTDTIIFLVTKMLMRESFEFSMEESFGLSVLLSNHPWDEFFLPLLDKIC
+ELYPPLVYYGDEYRFDFLRLFDRIVELMHHEFELNGTVENSVYQNFFLETWKRIPDWAKFLDDDSWNVKFNEILSKLLLI
+EDTESLKFIINGEEFHGER-------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like CAH0773663.1 Bemisia tabaci
+TKYFWAKLDDEQRERNLLKCAILSIEKSNEVLSGNLFSYKNHVHVDILVFLLWRMSRVQRLELYSRHKNTVLKMLLYTWP
+WQGLFLCALEEMWPLFSEQDYQSLMHSVMSRLTQDAEQGYPLPHNKFHRIFQAVWRATPPHLKQSVDRNCWQVLSVLFKV
+EDISSISMIVNDPDLRERRHDLIAEGKSYFTNLIKEEKFELLEQCMEELHFSEEEQNSLKSQIHINIDYMRFIKQEEYER
+VDKYL---------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_023225606.1 Centruroides sculpturatus
+TEYLLQRLTPEERKKSLVRTAGYIAERHCSSASICTDLPKDYADVLCFLLSQMDEAQQTEVFESYPYKVLKCFLGWPLQS
+LFMETSNRMLNFLSKEDCHYFLREMADKVIEGHKDYDYQKLFGEFWRQSPTAHKRYVIDKCASGSLLSKLFKIKDKKNIS
+LVLKDATLAEKRKSFFTMK-------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_067130146.1 Centruroides vittatus
+TEYFLQKLTPREREESLVRYAGYVAHRRNSARKRSDFPKEFYADVLCFLLSQMDEEQQTEVFESYPYKVLKCFLDWPWQS
+LFMEIASRMWDFLPEDDYDCLLRAIIYKVIDGYKDCNYQNLFGEFWQQSPNAHKRYVIDECDSGSLLSKLFKIKDKKNLS
+LVLKYAATLVEKQE------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_067139090.1 Centruroides vittatus
+VLVKTAGYVANRRCDSARNRTDFPKEHYADVLCFLLSQMDEEQQTEVFKSYPYKVLKCFLDWPWQSLFMETANHMWDFLS
+EGKYDLLLRIIVDKVINGYKDCNYQNRFGEFWQQNLFKVEDKENVRLILKNATVKEKEEIIFYYKGQNICERLIYNNEWG
+SLKFFVQECISSKDIKVKFKEEFKERIIRRRSEETLEKEKDMWSKFFQLIDDLIQKIFKKRNIEKGNSSPNKRLCSIEFK
+EVAHNMKKICEKMPKSSDPGRLV---------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_015112103.1 Diachasma alloeum
+VKYFWGLLNEQERVRTITKICENIVSDDPNAQGYKDLFFRERRIKGDLLVFFLQQLSRYGFDDVRAKILGSAFVLLQLLE
+WPYDNSFMKTLRESWIHHDSIDYGPIVERIFLNVCNCKEYQFVEHDVKYHRIFCRLWEINPQNLKSSIDYKESLSNLWES
+GNVALLNLMLRDRELKDRRGEFL---------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_063993302.1 Diachasmimorpha longicaudata
+KYFWNIMTKVERMGNALRGCEIILKRRCIFPFCEATFCKKCSDIFCFLLCQITPEENQQLITHELNKGYDPFGTWMLLLN
+WPWEDLFLMMVDRMWPVLSIFDCKFFINKFETTVFTVASHYSLRETSIYHKDVLYKVCLDSPRNLRPH------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_011304001.1 Fopius arisanus
+VRYFWNMMSCEERTKKAITGCEIILERRCTYPYCYATYCKKCSDIFCFLLLQMTHEERLQLIANEFDKTYDPFNTWILLL
+NWPWEDLFVQTLERAWGCFSIFDCKFFINKFETTVYTVDENYKLPQTSVYHKEILYKVCMSSPRNLRPH-----------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like GFS42333.1 Nephila pilipes
+NEEQQVKVFKNYPYKVLKCFLDWPWQSFFMETAKRIWAFLPEEDYDLLLRIIVNKAIDGYKDCNYQKLFGEFWQQSPITH
+KEYVIDECASGSLVSKLLQIKDKENIKLILENATTPEREKVIFSDKGKSTCESLTYNDKRDLLKFFVQECISSKDIMIKF
+KEEFKKRIIRRCSEETLEREKDMWSKFF----------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like OZ392386.1 Platydracus_latebricola
+DDSFVKSGSDMLTSMWNRPGFEAHRHHYLNKLSAQYSSTRDLVASLIEKDKAVKVLSEIINSLSQEQMQYIMEKDRSRYE
+VFTRVRNKQLDG--------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like XP_054722951.1 Uloborus_diversus
+EQQLAFFNEAFEMKIRCTRFLLHWPHQDYFLPMINQLWGIIPKDENDRCLTDLVQKYSGSDGKESCDYEYRSLLGALWEV
+TPNEYKNYVLCRKTKHLTLLSQLLRSPFLEKDQVLFKQIFRDQPQEKRREMMLTDNEGEFMCSRLIREEKWTFLNWLLKE
+CLSQEEIVGFRKRFIPSFSGSWLC--------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like OZ405825.1 Villa_occulta
+VEFFWNKIKSLPESEMSVQQKDEILMKIAVYVAGSRCNSYPEIFEFCFSQINPDKYPELLKRDLAENGYYGSLNTLQGAL
+RFDQFQRLFDCLRPNDVPEDDYNIWLDMEIKKHSEPYVSASVKLFMHMWMKEGFDNHRALVIREELEDKSPLF-------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------
+>RNA binding like OE000667.1 Timema_tahoe
 TEYFLQKLIPREKELLVRSVGIANRSCNSARNCTDLPKEYYTDILYFLLSQMDEQQIEVFKGYHYKVLKCLLDWPQSLFM
 ETANPMWDFLSEDYDLLLRIIVDKVINGYRDCNYQKLFREFWQKSPNAYKKYVTGRCVSRGLLLSDLFKVKDKDNISLLL
 EDAEKEKNIFHHEGKDTCKDLVYSNDWGLPLFFI----------------------------------------------
@@ -724,15 +719,10 @@ EDAEKEKNIFHHEGKDTCKDLVYSNDWGLPLFFI----------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
 >RNA binding like OE839640.1 Timema_genevievae
-
 ETANLMWDFLSEDYDLLLRIIVDKVINGYRDCNYQKLFEFWHQPKSCFKKYVTVRSVSRGFLLSDLFKVQNDNISLLLED
 AIPTEKEKNIFHHEGKDTCKDLVYSNDWGLSLFFINECIASQERMIKLKEFREHITWCCSKVELPRNKDKLDKFF-----
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 ----------------
-```
-
-### *cif* discarded
-```fasta
 ```
