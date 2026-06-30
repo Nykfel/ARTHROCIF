@@ -972,7 +972,7 @@ VSVILENTKLYTNSIETVCRKLGKEELDIIIDYLFDQIVQKNIKKITLKSSKDQADQFLVSLRKGLPQIK
 QQFLQAEEVEEQHQANLGSNTDHLKQSMYNNRSVDPVSHIYLHLENICNKSYDFGVKKLI
 ```
 
-### [Bacteria](https://github.com/julien01A/cif_evolution/tree/main/3.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/cifA-cifB_sequences)
+### [Bacterial](https://github.com/julien01A/cif_evolution/tree/main/3.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/cifA-cifB_sequences)
 
 ```fasta
 >cifB_Cardinium_sp_cBtQ1_CarcBtQ1
@@ -3088,4 +3088,8 @@ MSRTKDANGRMNPKLNPVVIEFEGESYTADEAIAQTKNKYYLYNLSIRTKAEDAVIVGVAKGEQGVTKKE
 VIRSKESLSPLVETLSPFKGLIKKEVDFQAIIQGLFINGKTENGKEIRVNTEPNLSPQGRMDLGLSFTQL
 SESDGSLIEDDPIIVELKQTTSGSDASRQLKQAERQVATLIREADLFVTFLIKNSTISDQRVRKGKQLSH
 VNESLN
+```
+### [Bacterial](https://github.com/julien01A/cif_evolution/tree/main/3.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/cifA-cifB_sequences)
+
+```fasta
 ```
