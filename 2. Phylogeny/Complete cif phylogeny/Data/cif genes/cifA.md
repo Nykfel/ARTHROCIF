@@ -989,7 +989,7 @@ MPKKMERHAAVLSKLKSVIQHTDSKVMAERRSAIERWVKTYIRQVEYLKDDKLQFLYNIFRDESCWSGTRLNNTILGQRF
 HGSKKTTLPVDDSPQSELGTPSVSGVSSYKKKSVFTLSGNK
 ```
 
-### [Bacteria]([https://adresse-de-la-page-web.com](https://github.com/julien01A/cif_evolution/tree/main/3.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/cifA-cifB_sequences))
+### [Bacteria](https://github.com/julien01A/cif_evolution/tree/main/3.%20Screening%20of%20cifA%20and%20cifB%20and%20their%20predicted%20protein%20domains/cifA-cifB_sequences)
 
 ```fasta
 >cifA_Cd_Mesenet_longicola_GL2_MesenetGL2
