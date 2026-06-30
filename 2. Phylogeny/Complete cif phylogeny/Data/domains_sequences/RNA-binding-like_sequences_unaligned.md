@@ -1,4 +1,4 @@
-### *cif* retained
+### *cifA* retained
 
 ```fasta 
 >RNA binding like OZ392248.1 Aegaeobuthus cyprius
@@ -617,7 +617,7 @@ DNWQAVETFF----------------------------------------------------------------------
 ----------------
 ```
 
-### *cif* discarded
+### *cifA* discarded
 
 ```fasta
 >RNA binding like KAF5277223.1 Abscondita terminalis
