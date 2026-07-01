@@ -1,1 +1,1 @@
-To identify cifA genes associated with each cifB, we screened the corresponding assemblies using reference CifA sequences from multiple phylogenetic types, including both bacterial and eukaryotic sequences.
+To identify cifA genes associated with each cifB, we screened the corresponding assemblies using both bacterial and eukaryotic CifA reference sequences.
